@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as fb from './firebase/firebase';
-import Router from './router/index';
+import router from './router/index';
 
 Vue.use(Vuex);
 

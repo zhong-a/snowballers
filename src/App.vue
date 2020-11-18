@@ -5,6 +5,7 @@
     </div>
 
     <div id="login-div" v-if="showLogin">
+      <loginfb />
       <login />
     </div>
     <div id="create-team-div" v-if="showCreateTeam">
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import loginfb from "./components/login/login-firebase.vue";
 import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
@@ -26,14 +28,16 @@ export default {
   name: "app",
   data() {
     return {
-      showLogin: false,
-      showSidebar: false,
+      showLogin: true,
+      showSidebar: true,
       showCreateTeam: true,
       showTeamMenu: true,
+
     };
   },
   components: {
     login,
+    loginfb,
     leftSidebar,
     createTeam,
     teamsMenu,
