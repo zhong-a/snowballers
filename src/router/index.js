@@ -1,6 +1,7 @@
 //router for firebase authentication
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Home from '../home/home.vue'
 import { auth } from '../firebase/firebase.js'
 
 //.use(MyPlugin) automatically prevents you from using the same plugin more than once
@@ -33,3 +34,5 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+export default router

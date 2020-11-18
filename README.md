@@ -27,5 +27,6 @@ npm run build
 surge
 # first time you run you'll be prompted to sign up, register
 # click enter to confirm folder of app, surge will deploy the app build to the url specified in the next line
+https://docs.kontent.ai/tutorials/develop-apps/get-started/run-sample-app?tech=javascript
 
 note: if you get a permission denied error, try retyping in the URL surge gave you previously 
