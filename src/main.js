@@ -1,14 +1,20 @@
 import Vue from "vue";
 import App from "./App.vue";
 import VueRouter from "vue-router";
-import Login from "./components/login/login.vue";
-import Home from "./components/home/home.vue";
+import store from "./store";
+import { firestorePlugin} from 'vuefire';
+
+//import Login from "./components/login/login.vue";
+//import Home from "../components/home/home.vue";
 
 //import router from './router'
 //import store from './store'
 //import {auth} from './firebase'
 
 Vue.use(VueRouter);
+Vue.config.productionTip = false;
+Vue.use(firestorePlugin)
+
 
 //ensure firebase initializes before reloading the app when page refresh
 /*
@@ -29,5 +35,6 @@ auth.onAuthStateChanged(() => {
 
 new Vue({
   el: "#app",
+  store,
   render: (h) => h(App)
 });

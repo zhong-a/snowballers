@@ -1,25 +1,29 @@
 import * as firebase from 'firebase/app'
+import Firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage';
+
 
 // firebase init - add your own config here
 const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: ''
+  apiKey: "AIzaSyCSlZ7BvFOLOfl0igZLtN0O0WeF-NE1T7o",
+  authDomain: "snowballers-198f9.firebaseapp.com",
+  databaseURL: "https://snowballers-198f9.firebaseio.com",
+  projectId: "snowballers-198f9",
+  storageBucket: "snowballers-198f9.appspot.com",
+  messagingSenderId: "777441677545",
+  appId: "1:777441677545:web:14caae03b3353a8d8ca078",
+  measurementId: "G-MVX97391W5"
 }
-firebase.initializeApp(firebaseConfig)
+const fb = Firebase.initializeApp(firebaseConfig)
 
 // utils
-const db = firebase.firestore()
-const auth = firebase.auth()
+const storage = fb.storage()
 
 // collection references
 const usersCollection = db.collection('users')
+const teamsCollection = db.collection('teams')
 
 // export utils/refs
 export {

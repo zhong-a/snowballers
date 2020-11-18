@@ -1,11 +1,11 @@
 //store.js is for storing the user profile that gets accessed for the components
 
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as fb from '../firebase/firebase.js'
-import Router from '../router/index.js'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import * as fb from './firebase/firebase';
+import Router from './router/index';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
@@ -48,4 +48,4 @@ export default new Vuex.Store({
             router.push('/')
         }
     }
-})
+});
