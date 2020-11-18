@@ -52,7 +52,9 @@
 </template>
 
 <script>
+//make passwordreset later
 //import PasswordReset from '@/components/PasswordReset'
+import $ from 'jquery'
 export default {
   /*components: {
     PasswordReset
