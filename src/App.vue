@@ -4,8 +4,11 @@
       <leftSidebar />
     </div>
 
-    <div id="login-div" v-fi="showLogin">
+    <div id="login-div" v-if="showLogin">
       <login />
+    </div>
+    <div id="create-team-div" v-if="showCreateTeam">
+      <createTeam />
     </div>
   </div>
 </template>
@@ -13,17 +16,20 @@
 <script>
 import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
+import createTeam from "./components/createTeam/createTeam.vue";
 export default {
   name: "app",
   data() {
     return {
       showLogin: true,
       showSidebar: false,
+      showCreateTeam: true,
     };
   },
   components: {
     login,
     leftSidebar,
+    createTeam,
   },
 };
 </script>
