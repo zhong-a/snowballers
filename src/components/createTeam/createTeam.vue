@@ -61,7 +61,21 @@ export default {
         alert("You have to input a password!");
         return;
       }
-      this.$emit("team-created");
+      this.$store
+        .dispatch("createTeam", {
+          teamName: this.teamName,
+          maxMembers: this.maxTeamMembers,
+          pwProtected: this.passwordProtected,
+          password: this.password,
+        })
+        .then(() => {
+          this.$emit("team-created");
+        })
+        .catch((error) => {
+          if (error === "already exists") {
+            alert("A team with that name already exists!");
+          }
+        });
     },
   },
 };

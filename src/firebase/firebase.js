@@ -1,8 +1,7 @@
-import Firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
-import 'firebase/storage';
-
+import Firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/storage";
 
 // firebase init - add your own config here
 const firebaseConfig = {
@@ -14,21 +13,17 @@ const firebaseConfig = {
   messagingSenderId: "777441677545",
   appId: "1:777441677545:web:14caae03b3353a8d8ca078",
   measurementId: "G-MVX97391W5"
-}
-const fb = Firebase.initializeApp(firebaseConfig)
+};
+const fb = Firebase.initializeApp(firebaseConfig);
 
 // utils
-const db = fb.firestore()
-const auth = fb.auth()
-const storage = fb.storage()
+const db = fb.firestore();
+const auth = fb.auth();
+const storage = fb.storage();
 
 // collection references
-const usersCollection = db.collection('users')
-const teamsCollection = db.collection('teams')
+const usersCollection = db.collection("users");
+const teamsCollection = db.collection("teams");
 
 // export utils/refs
-export {
-  db,
-  auth,
-  usersCollection
-}
+export { db, auth, usersCollection, teamsCollection };
