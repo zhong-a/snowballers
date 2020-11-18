@@ -10,21 +10,18 @@ import Home from "./components/home/home.vue";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: Login
-  },
-];
+//ensure firebase initializes before reloading the app when page refresh
+/*
+let app
+auth.onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})*/
 
 new Vue({
   el: "#app",
