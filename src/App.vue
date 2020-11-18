@@ -21,6 +21,7 @@ import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
+const regeneratorRuntime = require("regenerator-runtime");
 export default {
   name: "app",
   data() {
