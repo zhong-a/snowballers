@@ -63,11 +63,12 @@ export default {
       }
       this.$store
         .dispatch("createTeam", {
-          teamName: this.teamName,
-          maxMembers: this.maxTeamMembers,
-          pwProtected: this.passwordProtected,
-          password: this.password,
-        })
+                teamName: this.teamName,
+                maxTeamMembers: this.maxTeamMembers,
+                pwProtected: this.passwordProtected,
+                password: this.password
+            }
+        )
         .then(() => {
           this.$emit("team-created");
         })

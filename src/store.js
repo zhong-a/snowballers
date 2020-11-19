@@ -53,42 +53,34 @@ export default new Vuex.Store({
       // change route to dashboard
       router.push("/");
     },
-    async createTeam(
-      { dispatch },
-      teamName,
-      maxMembers,
-      pwProtected,
-      password
-    ) {
-      return new Promise((resolve, reject) => {
+    async createTeam({ state }, form) {
         // see if the team name has been taken
-        fb.teamsCollection
-          .doc(teamName)
+        let snapshot = await fb.teamsCollection
+          .doc(form.teamName)
           .get()
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              reject("already exists");
-            } else {
-              let teamObject = {
-                owner: 4444,
-                pwProtected: pwProtected,
-                password: password,
-                maxMembers: maxMembers,
-                members: {}
-              };
-              teamObject["members"][4444] = true;
-              //let uid = this.state.userProfile.uid
-              fb.teamsCollection
-                .doc(teamName)
-                .set(teamObject)
-                .then(() => {
-                  resolve("team created");
-                })
-                .catch((error) => reject(error));
-            }
-          })
-          .catch((error) => reject(error));
-      });
+        if (snapshot.exists) {
+            return new Promise(function (resolve, reject) {
+                reject("already exists")
+            });
+        }
+          let teamObject = {
+            owner: 4444,
+            pwProtected: form.pwProtected,
+            password: form.password,
+            maxMembers: form.maxTeamMembers,
+            members: {}
+          };
+          teamObject["members"][4444] = true;
+          //let uid = this.state.userProfile.uid
+          await fb.teamsCollection
+            .doc(form.teamName)
+            .set(teamObject)
+          await fb.usersCollection.doc(state.userProfile.uid).update({
+                owns: form.teamName
+            })
+        return new Promise(function(resolve, reject) {
+            resolve("we fukin got there boys")
+        });
     }
   }
 });
