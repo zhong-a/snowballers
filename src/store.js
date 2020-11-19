@@ -9,11 +9,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userProfile: {}
+    userProfile: {},
+    currentTeam: "",
+    owner: false,
   },
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val;
+    },
+    setTeam(state, payload) {
+      state.currentTeam = payload.team;
+      state.owner = payload.owner;
     }
   },
   actions: {
@@ -53,7 +59,7 @@ export default new Vuex.Store({
       // change route to dashboard
       router.push("/");
     },
-    async createTeam({ state }, form) {
+    async createTeam({ commit, state }, form) {
         // see if the team name has been taken
         let snapshot = await fb.teamsCollection
           .doc(form.teamName)
@@ -63,18 +69,21 @@ export default new Vuex.Store({
                 reject("already exists")
             });
         }
+        let uid = this.state.userProfile.uid
           let teamObject = {
-            owner: 4444,
+            owner: uid,
             pwProtected: form.pwProtected,
             password: form.password,
             maxMembers: form.maxTeamMembers,
             members: {}
           };
-          teamObject["members"][4444] = true;
-          //let uid = this.state.userProfile.uid
+          teamObject["members"][uid] = true;
           await fb.teamsCollection
             .doc(form.teamName)
             .set(teamObject)
+
+          //update our internal state
+          commit('setTeam', {team: form.teamName, owner: true})
           await fb.usersCollection.doc(state.userProfile.uid).update({
                 owns: form.teamName
             })
