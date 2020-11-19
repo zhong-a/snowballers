@@ -9,7 +9,7 @@
       <login />
     </div>
     <div id="create-team-div" v-if="showCreateTeam">
-      <createTeam />
+      <createTeam v-on:team-created="teamCreated()"/>
     </div>
     <div id="team-menu-div" v-if="showTeamMenu">
       <teamsMenu />
@@ -42,6 +42,11 @@ export default {
     createTeam,
     teamsMenu,
   },
+  methods: {
+    teamCreated: function() {
+        this.showCreateTeam = false;
+    }
+  }
 };
 </script>
 

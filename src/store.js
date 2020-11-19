@@ -69,7 +69,8 @@ export default new Vuex.Store({
                 reject("already exists")
             });
         }
-        let uid = this.state.userProfile.uid
+        //let uid = this.state.userProfile.uid
+        let uid = "4444"
           let teamObject = {
             owner: uid,
             pwProtected: form.pwProtected,
@@ -84,9 +85,9 @@ export default new Vuex.Store({
 
           //update our internal state
           commit('setTeam', {team: form.teamName, owner: true})
-          await fb.usersCollection.doc(state.userProfile.uid).update({
-                owns: form.teamName
-            })
+          //await fb.usersCollection.doc(uid).update({
+          //      owns: form.teamName
+          //  })
         return new Promise(function(resolve, reject) {
             resolve("we fukin got there boys")
         });
