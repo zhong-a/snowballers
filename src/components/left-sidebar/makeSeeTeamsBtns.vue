@@ -1,7 +1,7 @@
 <template>
     <div id="container">
         <button @click="makeTeamBtnClicked">Make Team</button>
-        <button @click="joinTeamBtnClicked">Join Team</button>
+        <button @click="seeTeamsBtnClicked">See Teams</button>
     </div>
 </template>
 
@@ -15,8 +15,8 @@ export default {
       this.$root.$emit("makeTeamBtnClicked");
     },
 
-    joinTeamBtnClicked: function() {
-      this.$emit("joinTeamBtnClicked");
+    seeTeamsBtnClicked: function() {
+      this.$emit("seeTeamsBtnClicked");
     },
   },
 };

@@ -6,7 +6,7 @@
         <loginfb />
       </div>
 
-      <makeJoinTeamBtns v-if="showMakeJoinTeamBtns" />
+      <makeSeeTeamsBtns v-if="showMakeJoinTeamBtns" />
 
       
     </div>
@@ -26,11 +26,11 @@
 import loginfb from "./components/login/login-firebase.vue";
 import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
-import makeJoinTeamBtns from "./components/left-sidebar/makeJoinTeamBtns.vue";
+import makeSeeTeamsBtns from "./components/left-sidebar/makeSeeTeamsBtns.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
-import MakeJoinTeamBtns from './components/left-sidebar/makeJoinTeamBtns.vue';
 const regeneratorRuntime = require("regenerator-runtime");
+
 export default {
   name: "app",
   data() {
@@ -46,7 +46,7 @@ export default {
     login,
     loginfb,
     leftSidebar,
-    makeJoinTeamBtns,
+    makeSeeTeamsBtns,
     createTeam,
     teamsMenu,
   },
