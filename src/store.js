@@ -43,7 +43,7 @@ export default new Vuex.Store({
       // create user object in userCollections
       await fb.usersCollection.doc(user.uid).set({
         name: form.name,
-        title: form.title
+        title: form.title,
       });
 
       // fetch user profile and set in state
@@ -53,8 +53,10 @@ export default new Vuex.Store({
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get();
 
+      let data = userProfile.data()
+      data['uid'] = user.uid
       // set user profile in state
-      commit("setUserProfile", userProfile.data());
+      commit("setUserProfile", data);
 
       // change route to dashboard
       router.push("/");
@@ -69,8 +71,7 @@ export default new Vuex.Store({
                 reject("already exists")
             });
         }
-        //let uid = this.state.userProfile.uid
-        let uid = "4444"
+        let uid = this.state.userProfile.uid
           let teamObject = {
             owner: uid,
             pwProtected: form.pwProtected,
@@ -85,9 +86,10 @@ export default new Vuex.Store({
 
           //update our internal state
           commit('setTeam', {team: form.teamName, owner: true})
-          //await fb.usersCollection.doc(uid).update({
-          //      owns: form.teamName
-          //  })
+          await fb.usersCollection.doc(uid).update({
+                inteam: form.teamName,
+                owner: true,
+            })
         return new Promise(function(resolve, reject) {
             resolve("we fukin got there boys")
         });
