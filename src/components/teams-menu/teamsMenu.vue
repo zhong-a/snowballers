@@ -34,8 +34,10 @@ export default {
     },
   },
   created: function() {
+    //bad cludge, please ignore
+    let thisPtr = this
     this.$store.dispatch('fetchTeams').then(function(teamList) {
-      this.teams = teamList
+      thisPtr.teams = teamList
     })
   }  
 }

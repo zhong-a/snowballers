@@ -101,13 +101,16 @@ export default new Vuex.Store({
         },
         async fetchTeams({ commit }) {
             // fetch teams
-            teamsList = [];
+            console.log(104)
+            let teamsList = [];
             const teams = await fb.teamsCollection.where("maxMembers", "!=", "currentMembers").get();
             teams.forEach(function (doc) {
                 let data = doc.data();
-                data["name"] = doc.id();
-                teamsList.append(data);
+                data["name"] = doc.id;
+                console.log(data)
+                teamsList.push(data);
             })
+            console.log(teamsList)
             return new Promise(function (resolve, reject) {
                 resolve(teamsList);
             })
@@ -118,7 +121,7 @@ export default new Vuex.Store({
             const events = await fb.eventsCollection.where("maxMembers", "!=", "currentMembers").get();
             events.forEach(function (doc) {
                 let data = doc.data();
-                data["name"] = doc.id();
+                data["name"] = doc.id;
                 eventsList.append(data);
             })
             return new Promise(function (resolve, reject) {
