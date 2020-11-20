@@ -43,6 +43,8 @@ export default {
       } else {
         this.teams[num - 1]["members"] += 1;
       }
+
+      this.$root.$emit("joinTeamBtnClicked");
     },
   },
 };

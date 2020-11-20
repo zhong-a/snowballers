@@ -21,6 +21,8 @@ export default {
   methods: {
     login: function () {
       console.log("foo");
+
+      this.$root.$emit("logInBtnClicked");
     },
   },
 };

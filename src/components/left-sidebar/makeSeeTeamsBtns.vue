@@ -16,7 +16,7 @@ export default {
     },
 
     seeTeamsBtnClicked: function() {
-      this.$emit("seeTeamsBtnClicked");
+      this.$root.$emit("seeTeamsBtnClicked");
     },
   },
 };

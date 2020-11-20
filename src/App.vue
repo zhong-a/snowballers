@@ -6,7 +6,7 @@
         <loginfb />
       </div>
 
-      <makeSeeTeamsBtns v-if="showMakeJoinTeamBtns" />
+      <makeSeeTeamsBtns v-if="showMakeSeeTeamBtns" />
 
       
     </div>
@@ -39,7 +39,7 @@ export default {
       //showSidebar: true,// do we ever hide the sidebar?
       showCreateTeam: true,
       showTeamMenu: true,
-      showMakeJoinTeamBtns: true,
+      showMakeSeeTeamBtns: true,
     };
   },
   components: {
@@ -51,30 +51,58 @@ export default {
     teamsMenu,
   },
   methods: {
-    logIn: function() {
-      this.showMakeJoinTeamBtns = true;
-
+    hideAllComponents: function() {
       this.showLogin = false;
       this.showCreateTeam = false;
       this.showTeamMenu = false;
+      this.showMakeSeeTeamBtns = false;
     },
 
-    createTeamFunc: function() {
-      this.showCreateTeam = false;;
-      console.log("k");
+    logIn: function() {
+      this.hideAllComponents();
+      this.showMakeSeeTeamBtns = true;
     },
 
-    teamsMenuFunc: function() {},
-    teamCreated: function() {},
-    teamJoined: function() {}
+    openCreateTeamForm: function() {
+      this.hideAllComponents();
+      this.showCreateTeam = true;
+    },
 
+    openTeamsMenu: function() {
+      this.hideAllComponents();
+      this.showTeamMenu = true;
+    },
+
+    teamCreated: function() {
+      this.hideAllComponents();
+      this.showMakeSeeTeamBtns = true;
+    },
+
+    teamJoined: function() {
+      this.hideAllComponents();
+      this.showMakeSeeTeamBtns = true;
+    },
   },
   mounted: function() {
+    this.$root.$on("logInBtnClicked", () => {
+      console.log("logloglog")
+      this.logIn();
+    });
 
     this.$root.$on("makeTeamBtnClicked", () => {
-      this.createTeamFunc();
-    })
+      this.openCreateTeamForm();
+    });
+    this.$root.$on("seeTeamsBtnClicked", () => {
+      this.openTeamsMenu();
+    });
 
+    this.$root.$on("createTeamBtnClicked", () => {
+      this.teamCreated();
+    });
+
+    this.$root.$on("joinTeamBtnClicked", () => {
+      this.teamJoined();
+    })
   },
 };
 </script>

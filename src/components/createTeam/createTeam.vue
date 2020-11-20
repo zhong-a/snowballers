@@ -71,6 +71,8 @@ export default {
         )
         .then(() => {
           this.$emit("team-created");
+
+          this.$root.$emit("createTeamBtnClicked");
         })
         .catch((error) => {
           if (error === "already exists") {
