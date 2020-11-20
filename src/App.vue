@@ -1,19 +1,24 @@
 <template>
   <div id="app">
-    <div v-if="showSidebar">
-      <leftSidebar />
-    </div>
+    <div id="sidebar-container">
+      
+      <div id="login-div" v-if="showLogin">
+        <loginfb />
+      </div>
 
-    <div id="login-div" v-if="showLogin">
-      <loginfb />
-      <login />
+      <makeJoinTeamBtns v-if="showMakeJoinTeamBtns" />
+
+      
     </div>
-    <div id="create-team-div" v-if="showCreateTeam">
-      <createTeam v-on:team-created="teamCreated()"/>
-    </div>
-    <div id="team-menu-div" v-if="showTeamMenu">
-      <teamsMenu />
-    </div>
+    <main>
+      
+      <div id="create-team-div" v-if="showCreateTeam">
+        <createTeam v-on:team-created="teamCreated()"/>
+      </div>
+      <div id="team-menu-div" v-if="showTeamMenu">
+        <teamsMenu />
+      </div>
+    </main>
   </div>
 </template>
 
@@ -21,32 +26,56 @@
 import loginfb from "./components/login/login-firebase.vue";
 import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
+import makeJoinTeamBtns from "./components/left-sidebar/makeJoinTeamBtns.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
+import MakeJoinTeamBtns from './components/left-sidebar/makeJoinTeamBtns.vue';
 const regeneratorRuntime = require("regenerator-runtime");
 export default {
   name: "app",
   data() {
     return {
       showLogin: true,
-      showSidebar: true,
+      //showSidebar: true,// do we ever hide the sidebar?
       showCreateTeam: true,
       showTeamMenu: true,
-
+      showMakeJoinTeamBtns: true,
     };
   },
   components: {
     login,
     loginfb,
     leftSidebar,
+    makeJoinTeamBtns,
     createTeam,
     teamsMenu,
   },
   methods: {
-    teamCreated: function() {
-        this.showCreateTeam = false;
-    }
-  }
+    logIn: function() {
+      this.showMakeJoinTeamBtns = true;
+
+      this.showLogin = false;
+      this.showCreateTeam = false;
+      this.showTeamMenu = false;
+    },
+
+    createTeamFunc: function() {
+      this.showCreateTeam = false;;
+      console.log("k");
+    },
+
+    teamsMenuFunc: function() {},
+    teamCreated: function() {},
+    teamJoined: function() {}
+
+  },
+  mounted: function() {
+
+    this.$root.$on("makeTeamBtnClicked", () => {
+      this.createTeamFunc();
+    })
+
+  },
 };
 </script>
 
@@ -78,4 +107,13 @@ li {
 a {
   color: #42b983;
 }
+
+/***********/
+
+#app {
+  background-color: AliceBlue;
+  display: grid;
+  grid-template-columns: auto auto; /* make 2 columns */
+}
+
 </style>

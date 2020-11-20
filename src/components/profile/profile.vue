@@ -1,6 +1,6 @@
 <template>
   <div id="profile-container">
-    <img :src="user." />
+    <button>Show Profile</button>
   </div>
 </template>
 
