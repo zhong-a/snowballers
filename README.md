@@ -10,6 +10,16 @@ https://console.firebase.google.com/u/0/project/snowballers-198f9/firestore/data
 also one easy way to demo run the project is to use: 
 $ npm run dev
 and then go to http://localhost:8080/
+
+A sample workflow to demo the app is as follows:
+1. create an account (use a reasonably long name so it'll meet our account criteria (not something like e@e.e))
+2. click back to log in
+3. log in with that account
+4. click make teams
+5. make a team (show off different team sizes + passwords)
+6. Click see teams
+7. join a team
+8. maybe join a different team with a password or something
 ```
 
 > A Vue.js project
