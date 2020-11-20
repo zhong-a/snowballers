@@ -1,5 +1,17 @@
 # snowballers
 
+```
+Uncaught error when login button is clicked doesn't actually impact the functionality, you can check in firestore to see that the user is still added/logged in upon clicking the button
+
+Here is the firestore link where you can verify this: 
+
+https://console.firebase.google.com/u/0/project/snowballers-198f9/firestore/data~2Fusers~2FmZglE3hUTERVGecrk98u2y7k2Zh1
+
+also one easy way to demo run the project is to use: 
+$ npm run dev
+and then go to http://localhost:8080/
+```
+
 > A Vue.js project
 
 ## Build Setup
