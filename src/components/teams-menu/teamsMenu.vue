@@ -2,52 +2,47 @@
   <div id="teamsMenu">
     <b>Team Options</b>
     <ul>
-      <li v-for="team in teams" :key="team.num">
+      <li v-for="team in teams" :key="team.name">
         <p>
-          <span> team {{ team.num }} </span> <br />
+          <span> {{ team.name }} </span> <br />
           <span>
-            {{ team.members }}/{{ team.capacity }} members, privacy:
-            {{ team.privacy }}
+            {{ team.currentMembers }}/{{ team.maxMembers }} members, privacy:
+            {{ team.pwProtected }}
           </span>
-        </p>
-        <button v-on:click="join(team.num)">Join Team</button>
-      </li>
-    </ul>
-  </div>
+          <div class="passProtec" v-if="team.pwProtected">
+            <input v-model.trim="team.inputPassword" type="password" placeholder="password" />
+          </div>
+          <button v-on:click="join(team)">Join Team</button>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      teams: [
-        {
-          num: 1,
-          members: 0,
-          capacity: 10,
-          privacy: "public",
-        },
-        {
-          num: 2,
-          members: 5,
-          capacity: 10,
-          privacy: "public",
-        },
-      ],
+      teams: [],
     };
   },
   methods: {
-    join: function (num) {
-      if (this.teams[num - 1]["members"] >= this.teams[num - 1]["capacity"]) {
-        alert("this team is full!");
-      } else {
-        this.teams[num - 1]["members"] += 1;
+    join: function (team) {
+      if (team.pwProtected) {
+          if (team.inputPassword != team.password) {
+            alert("this password does not match");
+            return;
+          }
       }
 
       this.$root.$emit("joinTeamBtnClicked");
+      this.$store.dispatch("joinTeam", team);
     },
   },
-};
+  created: function() {
+    //bad cludge, please ignore
+    let thisPtr = this
+    this.$store.dispatch('fetchTeams').then(function(teamList) {
+      thisPtr.teams = teamList
+    })
+  }  
+}
 </script>
 
 <style>
