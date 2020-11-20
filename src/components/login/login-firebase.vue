@@ -86,6 +86,8 @@ export default {
         email: this.loginForm.email,
         password: this.loginForm.password
       })
+
+      this.$root.$emit("logInBtnClicked");
     },
     signup() {
       this.$store.dispatch('signup', {

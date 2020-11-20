@@ -1,3 +1,4 @@
+<!-- // don't use this file, use the other one (login-fb) -->
 <template>
   <div id="login-container">
     <h1>Login</h1>
@@ -22,7 +23,8 @@ export default {
     login: function () {
       console.log("foo");
 
-      this.$root.$emit("logInBtnClicked");
+    // don't use this file, use the other one (login-fb)
+      //this.$root.$emit("logInBtnClicked");
     },
   },
 };
