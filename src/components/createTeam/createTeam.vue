@@ -72,6 +72,7 @@ export default {
         .then(() => {
           this.$emit("team-created");
 
+          // this was broken, but now it works after we fixed the login button issues, so it was probably the same bug
           this.$root.$emit("createTeamBtnClicked");
         })
         .catch((error) => {

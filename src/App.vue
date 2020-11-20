@@ -37,9 +37,9 @@ export default {
     return {
       showLogin: true,
       //showSidebar: true,// do we ever hide the sidebar?
-      showCreateTeam: true,
-      showTeamMenu: true,
-      showMakeSeeTeamBtns: true,
+      showCreateTeam: false,
+      showTeamMenu: false,
+      showMakeSeeTeamBtns: false,
     };
   },
   components: {
