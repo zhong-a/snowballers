@@ -13,6 +13,9 @@
             <input v-model.trim="team.inputPassword" type="password" placeholder="password" />
           </div>
           <button v-on:click="join(team)">Join Team</button>
+      </li>
+    </ul>  
+  </div>
 </template>
 
 <script>
