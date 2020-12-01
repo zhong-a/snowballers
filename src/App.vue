@@ -21,8 +21,8 @@
       <div id="create-event-div" v-if="showCreateEvent">
         <createEvent v-on:event-created="eventCreated()"/>
       </div>
-      <div id="main-map">
-
+      <div id="main-map" v-if="showMap">
+        <Map />
       </div>
 
     </main>
@@ -37,6 +37,7 @@ import makeSeeTeamsBtns from "./components/left-sidebar/makeSeeTeamsBtns.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
 const regeneratorRuntime = require("regenerator-runtime");
+import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
 
 export default {
   name: "app",
@@ -47,6 +48,7 @@ export default {
       showCreateTeam: false,
       showTeamMenu: false,
       showMakeSeeTeamBtns: false,
+      showMap: true,
     };
   },
   components: {
@@ -56,6 +58,7 @@ export default {
     makeSeeTeamsBtns,
     createTeam,
     teamsMenu,
+    Map,
   },
   methods: {
     hideAllComponents: function() {
@@ -63,6 +66,7 @@ export default {
       this.showCreateTeam = false;
       this.showTeamMenu = false;
       this.showMakeSeeTeamBtns = false;
+      this.showMap = false;
     },
 
     logIn: function() {

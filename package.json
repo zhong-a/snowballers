@@ -12,6 +12,7 @@
   "dependencies": {
     "firebase": "^8.0.2",
     "jquery": "^3.5.1",
+    "leaflet": "^1.7.1",
     "regenerator-runtime": "^0.13.7",
     "surge": "^0.21.7",
     "vue": "^2.5.11",
