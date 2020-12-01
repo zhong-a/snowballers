@@ -18,7 +18,7 @@
 <script>
 export default {
     props: {
-      chal  
+      userTeam: String,  
     },
     data() {
         return {
