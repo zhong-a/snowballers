@@ -38,6 +38,13 @@ export default {
       this.$store.dispatch("joinEvent", event);
     },
   },
+  created: function() {
+    //bad cludge, please ignore
+    let thisPtr = this
+    this.$store.dispatch('fetchEvents').then(function(eventsList) {
+      thisPtr.events = eventsList
+    })
+  }  
 }
 </script>
 

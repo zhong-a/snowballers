@@ -34,17 +34,23 @@ export default {
         };
     },
     methods: {
+        // i dont think these updates are happening in firestore aka these do not work yet :'(
         challenge: function (team) {
             this.userTeam.challenged = true // challenged is true if the team has been challenged or sent a challenge
             team.challenged = true
             team.challenger = this.userTeam
-            this.$root.$emit("challengeBtnClicked");    // for debugging??
         },
         accept: function() {
+            this.userTeam.challenged = true;
             fightsCollection.add({
                 team1: this.userTeam.name,
                 team2: this.userTeam.challenger,
             })
+        },
+        reject: function() {
+            store.state.teams[this.userTeam.challenger].challenged = false;
+            this.userTeam.challenger = "";
+            this.userTeam.challenged = false;
         },
         
     },
@@ -54,6 +60,7 @@ export default {
         let thisPtr = this
         this.$store.dispatch('fetchChallengeTeams').then(function(teamList) {
             thisPtr.teamsOpenForChallenge = teamList
+            thisPtr.teamsOpenForChallenge.remove(this.userTeam) // trying to remove own team from teamsOpenForChallenge list
         })
     }  
 }

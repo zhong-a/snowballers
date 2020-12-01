@@ -13,6 +13,7 @@
 <script>
 import store from '../../store.js'
 import * as fb from '../../firebase/firebase'
+import Firebase from "firebase";
 export default {
     data() {
     return {
@@ -22,20 +23,22 @@ export default {
         };
     },
     created: function() {
-        this.username = store.state.userProfile.name;
         let thisptr = this
-        fb.chatsCollection.onSnapshot((doc) => {
+
+        let now = new Date().getTime();
+        let query = fb.chatsCollection.orderBy('timestamp').startAt(now);
+        query.onSnapshot((doc) => {
             doc.forEach(chat => {
-                thisptr.chats.append(chat.data())
+                thisptr.chats.push(chat.data())
             })
         })
     },
     methods: {
         sendMessage: function() {
             fb.chatsCollection.add({
-                username: 'shark',
+                username: store.state.userProfile.name,
                 message: this.message,
-                timestamp: Date.now()
+                timestamp: Firebase.database.ServerValue.TIMESTAMP
             })
         }
     }  
