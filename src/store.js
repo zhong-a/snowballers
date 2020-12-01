@@ -179,6 +179,7 @@ export default new Vuex.Store({
             //fetch members substructure
             await fb.usersCollection.doc(uid).update({
                 inteam: form.name,
+                owner: false,
             })
             //update the cloud too 
             form.members[uid] = true;

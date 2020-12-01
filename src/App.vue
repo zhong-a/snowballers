@@ -18,10 +18,19 @@
       <div id="team-menu-div" v-if="showTeamMenu">
         <teamsMenu />
       </div>
+      <div id="challenge-teams-div" v-else>
+        <challengeMenu />
+      </div>
       <div id="create-event-div" v-if="showCreateEvent">
         <createEvent v-on:event-created="eventCreated()"/>
       </div>
-      <div id="main-map" v-if="showMap">
+      <div id="events-menu-div" v-if="showEventsMenu">
+        <eventsMenu />
+      </div>
+      <div id="chat-div" v-if="showChat">
+        <chat />
+      </div>
+      <div id="main-map">
         <Map />
       </div>
 
@@ -36,6 +45,9 @@ import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
 import makeSeeTeamsBtns from "./components/left-sidebar/makeSeeTeamsBtns.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
+import createEvent from "./components/createEvent/createEvent.vue";
+import eventsMenu from "./components/eventsMenu/eventsMenu.vue";
+import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
 
@@ -49,6 +61,9 @@ export default {
       showTeamMenu: false,
       showMakeSeeTeamBtns: false,
       showMap: true,
+      showCreateEvent: true,
+      showEventsMenu:true,
+      showChat: true,
     };
   },
   components: {
@@ -59,6 +74,9 @@ export default {
     createTeam,
     teamsMenu,
     Map,
+    createEvent,
+    eventsMenu,
+    chat
   },
   methods: {
     hideAllComponents: function() {
@@ -93,6 +111,14 @@ export default {
       this.hideAllComponents();
       this.showMakeSeeTeamBtns = true;
     },
+
+    eventCreated: function() {
+      this.hideAllComponents();
+    },
+
+    eventJoined: function() {
+      this.hideAllComponents();
+    }
   },
   mounted: function() {
     this.$root.$on("logInBtnClicked", () => {

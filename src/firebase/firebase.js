@@ -26,6 +26,7 @@ const usersCollection = db.collection("users");
 const teamsCollection = db.collection("teams");
 const eventsCollection = db.collection("events");
 const chatsCollection = db.collection("chats");
+const fightsCollection = db.collection("fights");
 
 // export utils/refs
 export { db, auth, usersCollection, teamsCollection, eventsCollection, chatsCollection };

@@ -5,7 +5,7 @@
                 <span class="chatname">{{chat.username}}</span>: {{chat.message}}
             </li>
         </ul>
-        <input v-model="content" />
+        <input v-model="message" />
         <button v-on:click="sendMessage()">Send</button>
     </div>
 </template>
@@ -18,18 +18,23 @@ export default {
     return {
             username: '',
             chats: [],
-            content: '',
+            message: '',
         };
     },
     created: function() {
         this.username = store.state.userProfile.name;
+        let thisptr = this
         chatsCollection.onSnapshot(onNext=function(doc){
-            chats.push[doc.data()]
+            thisptr.chats.push[doc.data()]
         })
     },
     methods: {
         sendMessage: function() {
-            
+            chatsCollection.add({
+                username: this.username,
+                message: this.message,
+                timestamp: Date.now()
+            })
         }
     }  
 }
