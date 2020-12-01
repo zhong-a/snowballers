@@ -25,6 +25,7 @@ const storage = fb.storage();
 const usersCollection = db.collection("users");
 const teamsCollection = db.collection("teams");
 const eventsCollection = db.collection("events");
+const chatsCollection = db.collection("chats");
 
 // export utils/refs
-export { db, auth, usersCollection, teamsCollection, eventsCollection };
+export { db, auth, usersCollection, teamsCollection, eventsCollection, chatsCollection };

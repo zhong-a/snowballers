@@ -10,8 +10,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         userProfile: {},
-        currentTeam: "",
-        owner: false,
     },
     mutations: {
         setUserProfile(state, val) {
@@ -63,7 +61,7 @@ export default new Vuex.Store({
             commit("setUserProfile", data);
 
             // change route to dashboard
-            router.push("/");
+            //router.push("/");
         },
         async createTeam({ commit, state }, form) {
             // see if the team name has been taken
@@ -90,20 +88,34 @@ export default new Vuex.Store({
                 .set(teamObject)
 
             //update our internal state
-            commit('setTeam', { team: form.teamName, owner: true });
             await fb.usersCollection.doc(uid).update({
                 inteam: form.teamName,
                 owner: true,
             });
+            dispatch("fetchUserProfile", user);
             return new Promise(function (resolve, reject) {
-                resolve("we fukin got there boys")
+                resolve("we got there boys")
             });
         },
         async fetchTeams({ commit }) {
             // fetch teams
-            console.log(104)
             let teamsList = [];
             const teams = await fb.teamsCollection.where("maxMembers", "!=", "currentMembers").get();
+            teams.forEach(function (doc) {
+                let data = doc.data();
+                data["name"] = doc.id;
+                console.log(data)
+                teamsList.push(data);
+            })
+            console.log(teamsList)
+            return new Promise(function (resolve, reject) {
+                resolve(teamsList);
+            })
+        },
+        async fetchChallengeTeams({ commit }) {
+            // fetch teams
+            let teamsList = [];
+            const teams = await fb.teamsCollection.where("challenge", "!=", true).get();
             teams.forEach(function (doc) {
                 let data = doc.data();
                 data["name"] = doc.id;
@@ -118,7 +130,7 @@ export default new Vuex.Store({
         async fetchEvents({ commit }) {
             //fetch events
             eventsList = [];
-            const events = await fb.eventsCollection.where("maxMembers", "!=", "currentMembers").get();
+            const events = await fb.eventsCollection.where("maxParticipants", "!=", "currentAttending").get();
             events.forEach(function (doc) {
                 let data = doc.data();
                 data["name"] = doc.id;
@@ -143,21 +155,21 @@ export default new Vuex.Store({
                 owner: uid,
                 pwProtected: form.pwProtected,
                 password: form.password,
-                maxMembers: form.maxEventMembers,
-                currentMembers: 1,
-                members: {}
+                maxParticipants: form.maxParticipants,
+                currentAttending: 1,
+                attending: {}
             };
-            teamObject["members"][uid] = true;
+            eventObject["attending"][uid] = true;
             await fb.eventsCollection
                 .doc(form.eventName)
                 .set(eventObject)
 
             //update our internal state
-            commit('setEvent', { event: form.eventName, owner: true })
-            await fb.eventsCollection.doc(uid).update({
+            await fb.usersCollection.doc(uid).update({
                 attending: form.eventName,
-                owner: true,
+                eventOwner: true,
             })
+            dispatch("fetchUserProfile", user);
             return new Promise(function (resolve, reject) {
                 resolve("event added")
             });
@@ -175,8 +187,22 @@ export default new Vuex.Store({
                 currentMembers: form.currentMembers + 1,
             })
             //commit changes local storage
-            commit('setTeam', { team: form.teamName, owner: false });
-    
+            dispatch("fetchUserProfile", user);
+        },
+        async joinEvent({ commit, state }, form) {
+            let uid = this.state.userProfile.uid
+            //fetch members substructure
+            await fb.usersCollection.doc(uid).update({
+                attending: form.name,
+            })
+            //update the cloud too 
+            form.attending[uid] = true;
+            await fb.eventsCollection.doc(form.name).update({
+                attending: form.attending,
+                currentAttending: form.currentAttending + 1,
+            })
+            //commit changes local storage
+            dispatch("fetchUserProfile", user);
         }
     }
 });

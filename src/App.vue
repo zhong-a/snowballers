@@ -18,6 +18,13 @@
       <div id="team-menu-div" v-if="showTeamMenu">
         <teamsMenu />
       </div>
+      <div id="create-event-div" v-if="showCreateEvent">
+        <createEvent v-on:event-created="eventCreated()"/>
+      </div>
+      <div id="main-map">
+
+      </div>
+
     </main>
   </div>
 </template>
