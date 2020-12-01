@@ -1,8 +1,8 @@
 <template>
   <div id="create-event-template">
-    <h1 id="menu-title">Create a Team</h1>
+    <h1 id="menu-title">Create an Event</h1>
     <div class="menu-option">
-      <span class="left">Team Name:</span>
+      <span class="left">Event Name:</span>
       <span class="right">
         <input v-model="eventName" />
       </span>
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      eveentName: "",
+      eventName: "",
       maxParticipants: 8,
       passwordProtected: false,
       password: "",
@@ -54,13 +54,17 @@ export default {
   methods: {
     createEvent: function () {
       if (this.eventName.length === 0) {
-        alert("You have to input a team name!");
+        alert("You have to input an event name!");
         return;
       }
       if (this.passwordProtected && this.password.length === 0) {
         alert("You have to input a password!");
         return;
       }
+      console.log(this.eventName)
+      console.log(this.maxParticipants)
+      console.log(this.passwordProtected)
+      console.log(this.password)
       this.$store
         .dispatch("createEvent", {
                 eventName: this.eventName,

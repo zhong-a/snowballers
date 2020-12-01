@@ -1,50 +1,69 @@
 <template>
-  <div id="teamsMenu">
+  <div id="challengeMenu">
     <b>Team Options</b>
-    <ul>
-      <li v-for="team in teams" :key="team.name">
-        <p>
-          <span> {{ team.name }} </span> <br />
-          <span>
-            {{ team.currentMembers }}/{{ team.maxMembers }} members
-          </span>
-          <button v-on:click="challenge(team)">Challenge Team!</button>
-        </p>
-      </li>
-    </ul>  
+    <div id="accept-or-reject-div" v-if="userTeam.challenged">
+        <button v-on:click="accept">Accept</button>
+        <button v-on:click="reject">Reject</button>
+    </div>
+    <div v-else>
+        <ul>
+            <li v-for="team in teams" :key="team.name">
+            <p>
+                <span> {{ team.name }} </span> <br />
+                <span>
+                {{ team.currentMembers }}/{{ team.maxMembers }} members
+                </span>
+                <button v-on:click="challenge(team)">Challenge Team!</button>
+            </p>
+            </li>
+        </ul> 
+    </div>
   </div>
 </template>
 
 <script>
+import store from '../../store.js'
 export default {
-    props: {
-      userTeam: String,  
-    },
+    // props: {
+    //   userTeam: String,  
+    // },
     data() {
         return {
             teamsOpenForChallenge: [],
+            userTeam: {},
         };
     },
     methods: {
         challenge: function (team) {
             team.challenged = true
-            team.challenger = 
-        this.$root.$emit("joinTeamBtnClicked");
-        this.$store.dispatch("joinTeam", team);
+            team.challenger = this.userTeam
+            this.$root.$emit("joinTeamBtnClicked");
+            this.$store.dispatch("joinTeam", team);
+        },
+        accept: function() {
+            fightsCollection.add({
+                team1: this.userTeam.name,
+                team2: this.userTeam.challenger,
+            })
         },
     },
     created: function() {
+        this.userTeam = store.state.teams[store.state.userProfile.inteam];  // i think this is super wrong
         //bad cludge, please ignore
         let thisPtr = this
         this.$store.dispatch('fetchChallengeTeams').then(function(teamList) {
-        thisPtr.teamsOpenForChallenge = teamList
+            thisPtr.teamsOpenForChallenge = teamList
         })
     }  
 }
 </script>
 
 <style>
-#teamsMenu {
+#challengeMenu {
   text-align: left;
+}
+#accept-or-reject-div button {
+    margin: 10px;
+    display: inline-block;
 }
 </style>
