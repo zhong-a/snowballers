@@ -1,15 +1,15 @@
 <template>
-  <div id="teamsMenu">
-    <b>Team Options</b>
+  <div id="eventsMenu">
+    <b>Choose an Event to join</b>
     <ul>
-      <li v-for="team in teams" :key="team.name">
+      <li v-for="event in events" :key="event.name">
         <p>
-          <span> {{ team.name }} </span> <br />
+          <span> {{ event.name }} </span> <br />
           <span>
-            {{ team.currentMembers }}/{{ team.maxMembers }} members, privacy:
-            {{ team.pwProtected }}
+            {{ event.currentParticipants }}/{{ event.maxParticipants }} members, privacy:
+            {{ event.pwProtected }}
           </span>
-          <div class="passProtec" v-if="team.pwProtected">
+          <div class="passProtec" v-if="event.pwProtected">
             <input v-model.trim="team.inputPassword" type="password" placeholder="password" />
           </div>
           <button v-on:click="join(team)">Join Team</button>
@@ -38,13 +38,6 @@ export default {
       this.$store.dispatch("joinEvent", event);
     },
   },
-  created: function() {
-    //bad cludge, please ignore
-    let thisPtr = this
-    this.$store.dispatch('fetchTeams').then(function(teamList) {
-      thisPtr.teams = teamList
-    })
-  }  
 }
 </script>
 

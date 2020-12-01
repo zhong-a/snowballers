@@ -29,4 +29,4 @@ const chatsCollection = db.collection("chats");
 const fightsCollection = db.collection("fights");
 
 // export utils/refs
-export { db, auth, usersCollection, teamsCollection, eventsCollection, chatsCollection };
+export { db, auth, usersCollection, teamsCollection, eventsCollection, chatsCollection, fightsCollection };

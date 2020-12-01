@@ -35,10 +35,10 @@ export default {
     },
     methods: {
         challenge: function (team) {
+            this.userTeam.challenged = true // challenged is true if the team has been challenged or sent a challenge
             team.challenged = true
             team.challenger = this.userTeam
-            this.$root.$emit("joinTeamBtnClicked");
-            this.$store.dispatch("joinTeam", team);
+            this.$root.$emit("challengeBtnClicked");    // for debugging??
         },
         accept: function() {
             fightsCollection.add({
@@ -46,6 +46,7 @@ export default {
                 team2: this.userTeam.challenger,
             })
         },
+        
     },
     created: function() {
         this.userTeam = store.state.teams[store.state.userProfile.inteam];  // i think this is super wrong

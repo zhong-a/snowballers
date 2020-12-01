@@ -195,6 +195,7 @@ export default new Vuex.Store({
             //fetch members substructure
             await fb.usersCollection.doc(uid).update({
                 attending: form.name,
+                eventOwner: false,
             })
             //update the cloud too 
             form.attending[uid] = true;

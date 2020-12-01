@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <ul style="list-style-type:none;">
+    <div class="chatbox">
+        <ul class="chatlist">
             <li v-for="chat in chats" :key="chat.timestamp">
                 <span class="chatname">{{chat.username}}</span>: {{chat.message}}
             </li>
@@ -12,7 +12,7 @@
 
 <script>
 import store from '../../store.js'
-import chatsCollection from '../../firebase/firebase'
+import * as fb from '../../firebase/firebase'
 export default {
     data() {
     return {
@@ -24,14 +24,16 @@ export default {
     created: function() {
         this.username = store.state.userProfile.name;
         let thisptr = this
-        chatsCollection.onSnapshot(onNext=function(doc){
-            thisptr.chats.push[doc.data()]
+        fb.chatsCollection.onSnapshot((doc) => {
+            doc.forEach(chat => {
+                thisptr.chats.append(chat.data())
+            })
         })
     },
     methods: {
         sendMessage: function() {
-            chatsCollection.add({
-                username: this.username,
+            fb.chatsCollection.add({
+                username: 'shark',
                 message: this.message,
                 timestamp: Date.now()
             })
@@ -43,5 +45,15 @@ export default {
 <style scoped>
     .chatname {
         color: lightcoral;
+    }
+    .chatlist {
+        list-style-type:none;
+        height: 230px;
+    }
+    .chatbox {
+        height: 300px;
+        width: 150px;
+        border-style: solid;
+        border-color: black;
     }
 </style>
