@@ -14,7 +14,11 @@ export default {
    return{
      center: [42.290928, -83.717708], // Pierpont Commons
      currentFightLocations: [
-       [42.290928, -83.717708], // Pierpont
+// Hard code some locations into create event to make for easier and more legal location selection
+
+       [42.292149,-83.715727], // North Campus Grove
+        [42.289078,-83.709831], // Arborcrest Cemetery
+        [42.280617,-83.732652], // Palmer Field
      ],
    }
  },
@@ -39,7 +43,10 @@ export default {
 
       //## add current fight location markers
       for (let fightLocation of this.currentFightLocations) {
-        L.marker(fightLocation).addTo(mapDiv);
+        L.marker(fightLocation)
+          .bindPopup("Hi!")
+          .addTo(mapDiv);
+        console.log(fightLocation);
       }
    },
  },
