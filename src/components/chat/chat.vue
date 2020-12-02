@@ -1,10 +1,12 @@
 <template>
     <div class="chatbox">
-        <ul class="chatlist">
-            <li v-for="chat in chats" :key="chat.timestamp">
-                <span class="chatname">{{chat.username}}</span>: {{chat.message}}
-            </li>
-        </ul>
+        <div class='chatlistbox'>
+            <ul class="chatlist">
+                <li v-for="chat in chats" :key="chat.timestamp">
+                    <span class="chatname">{{chat.username}}</span>: {{chat.message}}
+                </li>
+            </ul>
+        </div>
         <input v-model="message" />
         <button v-on:click="sendMessage()">Send</button>
     </div>
@@ -25,9 +27,11 @@ export default {
     created: function() {
         let thisptr = this
 
-        let now = new Date().getTime();
-        let query = fb.chatsCollection.orderBy('timestamp').startAt(now);
+        let now = Date.now();
+        let query = fb.chatsCollection.orderBy('timestamp').
+            where('timestamp', '>', now);
         query.onSnapshot((doc) => {
+            thisptr.chats = []
             doc.forEach(chat => {
                 thisptr.chats.push(chat.data())
             })
@@ -38,7 +42,7 @@ export default {
             fb.chatsCollection.add({
                 username: store.state.userProfile.name,
                 message: this.message,
-                timestamp: Firebase.database.ServerValue.TIMESTAMP
+                timestamp: Date.now()
             })
         }
     }  
@@ -52,6 +56,10 @@ export default {
     .chatlist {
         list-style-type:none;
         height: 230px;
+    }
+    .chatListBox {
+        overflow-y: scroll;
+        text-align: left;
     }
     .chatbox {
         height: 300px;
