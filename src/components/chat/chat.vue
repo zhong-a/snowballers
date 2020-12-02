@@ -8,7 +8,7 @@
             </ul>
         </div>
         <div class="chatinput">
-            <input v-model="message" />
+            <input v-model="message" placeholder="type a message"/>
             <button v-on:click="sendMessage()" class="sendbutton">Send</button>
         </div>
     </div>
@@ -84,5 +84,6 @@ export default {
     }
     .sendbutton {
         margin-left: 5px;
+        //background-color: #58a9eb;
     }
 </style>

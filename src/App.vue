@@ -7,6 +7,7 @@
       </div>
 
       <makeSeeTeamsBtns v-if="showMakeSeeTeamBtns" />
+      <challengeBtn v-else-if="showLogin === false"/>
       
       
     </div>
@@ -15,8 +16,8 @@
       <div id="create-team-div" v-if="showCreateTeam">
         <createTeam v-on:team-created="teamCreated()"/>
       </div>
-      <div id="challenge-teams-div" v-else>
-        <challengeMenu />
+      <div id="challenge-menu-div" v-if="showOpenChallenges">
+        <!--challenges -->
       </div>
       <div id="team-menu-div" v-if="showTeamMenu">
         <teamsMenu />
@@ -50,6 +51,8 @@ import eventsMenu from "./components/eventsMenu/eventsMenu.vue";
 import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
+//import challenges from "./components/challenge/challenge"
+import showChallengesBtn from "./components/challenge/showChallengesBtn"
 
 export default {
   name: "app",
@@ -64,6 +67,8 @@ export default {
       showCreateEvent: true,
       showEventsMenu:true,
       showChat: true,
+      showShowChallengesBtn: false,
+      showOpenChallenges: false,
     };
   },
   components: {
@@ -76,7 +81,7 @@ export default {
     Map,
     createEvent,
     eventsMenu,
-    chat
+    chat,
   },
   methods: {
     hideAllComponents: function() {
@@ -109,7 +114,8 @@ export default {
 
     teamJoined: function() {
       this.hideAllComponents();
-      this.showMakeSeeTeamBtns = true;
+      this.showMakeSeeTeamBtns = false;
+      this.showShowChallengesBtn = true;
     },
 
     eventCreated: function() {
@@ -118,6 +124,11 @@ export default {
 
     eventJoined: function() {
       this.hideAllComponents();
+    },
+
+    openChallenges: function() {
+      this.hideAllComponents();
+      this.showOpenChallenges = true;
     }
   },
   mounted: function() {
@@ -139,7 +150,12 @@ export default {
 
     this.$root.$on("joinTeamBtnClicked", () => {
       this.teamJoined();
-    })
+    });
+
+    this.$root.$on("showChallengesBtnClicked", () => {
+      this.openChallenges();
+    });
+
   },
 };
 </script>
