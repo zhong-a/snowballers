@@ -7,8 +7,10 @@
                 </li>
             </ul>
         </div>
-        <input v-model="message" />
-        <button v-on:click="sendMessage()">Send</button>
+        <div class="chatinput">
+            <input v-model="message" />
+            <button v-on:click="sendMessage()" class="sendbutton">Send</button>
+        </div>
     </div>
 </template>
 
@@ -39,6 +41,10 @@ export default {
     },
     methods: {
         sendMessage: function() {
+            if (typeof(store.state.userProfile.name) == 'undefined') {
+                alert("You need to log in before you can chat!");
+                return;
+            }
             fb.chatsCollection.add({
                 username: store.state.userProfile.name,
                 message: this.message,
@@ -56,15 +62,27 @@ export default {
     .chatlist {
         list-style-type:none;
         height: 230px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
     .chatListBox {
         overflow-y: scroll;
         text-align: left;
     }
     .chatbox {
-        height: 300px;
-        width: 150px;
+        display: flex;
+        flex-direction: column;
         border-style: solid;
         border-color: black;
+    }
+    .chatinput {
+        display: flex;
+        justify-content: center;
+        height: 30px;
+        margin: 7px;
+    }
+    .sendbutton {
+        margin-left: 5px;
     }
 </style>

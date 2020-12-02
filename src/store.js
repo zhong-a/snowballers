@@ -27,29 +27,60 @@ export default new Vuex.Store({
     actions: {
         async login({ dispatch }, form) {
             // sign user in
-            const { user } = await fb.auth.signInWithEmailAndPassword(
-                form.email,
-                form.password
-            );
+            let user;
+            try {
+                user = await fb.auth.signInWithEmailAndPassword(
+                    form.email,
+                    form.password
+                );
+            } catch(err) {
+                console.log(err)
+                return new Promise(function (resolve, reject) {
+                    reject(err.message);
+                });  
+            }
 
             // fetch user profile and set in state
             dispatch("fetchUserProfile", user);
+
+            return new Promise(function (resolve, reject) {
+                resolve("ok");
+            });
         },
         async signup({ dispatch }, form) {
             // sign user up
-            const { user } = await fb.auth.createUserWithEmailAndPassword(
+            let user;
+            try{
+                user = await fb.auth.createUserWithEmailAndPassword(
+                    form.email,
+                    form.password
+                );
+                await fb.usersCollection.doc(user.uid).set({
+                    name: form.name,
+                    title: form.title,
+                });
+            } catch(err) {
+                console.log(err)
+                return new Promise(function (resolve, reject) {
+                    reject(err.message);
+                });  
+            }
+            /*const { user } = await fb.auth.createUserWithEmailAndPassword(
                 form.email,
                 form.password
-            );
+            );*/
 
             // create user object in userCollections
-            await fb.usersCollection.doc(user.uid).set({
+            /*await fb.usersCollection.doc(user.uid).set({
                 name: form.name,
                 title: form.title,
-            });
+            });*/
 
             // fetch user profile and set in state
             dispatch("fetchUserProfile", user);
+            return new Promise(function (resolve, reject) {
+                resolve("ok");
+            });
         },
         async fetchUserProfile({ commit }, user) {
             // fetch user profile
@@ -129,13 +160,15 @@ export default new Vuex.Store({
         },
         async fetchEvents({ commit }) {
             //fetch events
-            eventsList = [];
+            let eventsList = [];
             const events = await fb.eventsCollection.where("maxParticipants", "!=", "currentAttending").get();
             events.forEach(function (doc) {
                 let data = doc.data();
                 data["name"] = doc.id;
-                eventsList.append(data);
+                console.log(data);
+                eventsList.push(data);
             })
+            console.log(eventsList)
             return new Promise(function (resolve, reject) {
                 resolve(eventsList);
             })

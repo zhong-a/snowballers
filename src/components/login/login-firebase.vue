@@ -30,10 +30,6 @@
             <input v-model.trim="signupForm.name" type="text" placeholder="Savvy Apps" id="name" />
           </div>
           <div>
-            <label for="title">Title</label>
-            <input v-model.trim="signupForm.title" type="text" placeholder="Company" id="title" />
-          </div>
-          <div>
             <label for="email2">Email</label>
             <input v-model.trim="signupForm.email" type="text" placeholder="you@email.com" id="email2" />
           </div>
@@ -82,12 +78,16 @@ export default {
       this.showPasswordReset = !this.showPasswordReset
     },
     login() {
+      let thisptr = this;
       this.$store.dispatch('login', {
         email: this.loginForm.email,
         password: this.loginForm.password
+      }).then(() => {
+        thisptr.$root.$emit("logInBtnClicked");
+      }).catch(err => {
+        alert("Error with logging in: " + err)
       })
-
-      this.$root.$emit("logInBtnClicked");
+      
     },
     signup() {
       this.$store.dispatch('signup', {
@@ -95,6 +95,10 @@ export default {
         password: this.signupForm.password,
         name: this.signupForm.name,
         title: this.signupForm.title
+      }).then(() => {
+        thisptr.$root.$emit("logInBtnClicked");
+      }).catch(err => {
+        alert("Error with creating account: " + err)
       })
     }
   }

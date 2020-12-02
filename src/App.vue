@@ -7,7 +7,7 @@
       </div>
 
       <makeSeeTeamsBtns v-if="showMakeSeeTeamBtns" />
-
+      
       
     </div>
     <main>
@@ -15,11 +15,11 @@
       <div id="create-team-div" v-if="showCreateTeam">
         <createTeam v-on:team-created="teamCreated()"/>
       </div>
-      <div id="team-menu-div" v-if="showTeamMenu">
-        <teamsMenu />
-      </div>
       <div id="challenge-teams-div" v-else>
         <challengeMenu />
+      </div>
+      <div id="team-menu-div" v-if="showTeamMenu">
+        <teamsMenu />
       </div>
       <div id="create-event-div" v-if="showCreateEvent">
         <createEvent v-on:event-created="eventCreated()"/>

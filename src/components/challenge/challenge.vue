@@ -55,7 +55,9 @@ export default {
         
     },
     created: function() {
-        this.userTeam = store.state.teams[store.state.userProfile.inteam];  // i think this is super wrong
+        let teamID = store.state.userProfile.inteam;
+        let team = await fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
+        this.userTeam = team;
         //bad cludge, please ignore
         let thisPtr = this
         this.$store.dispatch('fetchChallengeTeams').then(function(teamList) {

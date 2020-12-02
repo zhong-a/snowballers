@@ -12,7 +12,7 @@
           <div class="passProtec" v-if="event.pwProtected">
             <input v-model.trim="team.inputPassword" type="password" placeholder="password" />
           </div>
-          <button v-on:click="join(team)">Join Team</button>
+          <button v-on:click="join(team)">Join Event</button>
       </li>
     </ul>  
   </div>
