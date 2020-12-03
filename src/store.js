@@ -41,7 +41,7 @@ export default new Vuex.Store({
             }
 
             // fetch user profile and set in state
-            dispatch("fetchUserProfile", user);
+            dispatch("fetchUserProfile", user.user);
 
             return new Promise(function (resolve, reject) {
                 resolve("ok");
@@ -77,7 +77,7 @@ export default new Vuex.Store({
             });*/
 
             // fetch user profile and set in state
-            dispatch("fetchUserProfile", user);
+            dispatch("fetchUserProfile", user.user);
             return new Promise(function (resolve, reject) {
                 resolve("ok");
             });
