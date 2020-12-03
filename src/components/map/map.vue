@@ -7,6 +7,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { possibleFightLocations } from "./possibleFightLocations"; // change this file path if needed
 
 export default {
  name: "Map", // Map needs to be capitalized b/c theres already an html element called map
@@ -34,13 +35,15 @@ export default {
          location: "Palmer Field", 
          time: "10:00 AM"
         },
+        {
+         team1: "Gold",
+         team2: "Silver",
+         location: "The Diag", 
+         time: "10:00 AM"
+        },
      ],
 
-     coordinates: {
-       "Palmer Field": [42.280617,-83.732652],
-       "North Campus Grove": [42.292149,-83.715727],
-       "Arborcrest Cemetery": [42.289078,-83.709831],
-     },
+     coordinates: possibleFightLocations,
    }
  },
 
@@ -82,8 +85,6 @@ export default {
       //add markers with their correponding popup messages to map
       for (let location in locationPopupMsgs) {
         let msg = locationPopupMsgs[location];
-
-        console.log(msg);
 
         let coordinates = this.coordinates[location];
 
