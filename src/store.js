@@ -41,7 +41,7 @@ export default new Vuex.Store({
             }
 
             // fetch user profile and set in state
-            dispatch("fetchUserProfile", user);
+            dispatch("fetchUserProfile", user.user);
 
             return new Promise(function (resolve, reject) {
                 resolve("ok");
@@ -77,7 +77,7 @@ export default new Vuex.Store({
             });*/
 
             // fetch user profile and set in state
-            dispatch("fetchUserProfile", user);
+            dispatch("fetchUserProfile", user.user);
             return new Promise(function (resolve, reject) {
                 resolve("ok");
             });
@@ -91,6 +91,7 @@ export default new Vuex.Store({
             // set user profile in state
             commit("setUserProfile", data);
 
+            
             // change route to dashboard
             //router.push("/");
         },
@@ -146,7 +147,7 @@ export default new Vuex.Store({
         async fetchChallengeTeams({ commit }) {
             // fetch teams
             let teamsList = [];
-            const teams = await fb.teamsCollection.where("challenge", "!=", true).get();
+            const teams = await fb.teamsCollection.where("challenged", "!=", true).get();
             teams.forEach(function (doc) {
                 let data = doc.data();
                 data["name"] = doc.id;
@@ -238,6 +239,21 @@ export default new Vuex.Store({
             })
             //commit changes local storage
             dispatch("fetchUserProfile", user);
+        },
+
+        async challengeTeam({ commit, state}, form) {
+            console.log("line 245")
+            let uid = this.state.userProfile.uid
+            await fb.teamsCollection.doc(form.challenger).update({
+                challenged: true,
+                challenger: form.challenging,
+            })
+            await fb.teamsCollection.doc(form.challenging).update({
+                challenged: true,
+                challenger: form.challenger,
+            })
+
+            // need to commit ?
         }
     }
 });

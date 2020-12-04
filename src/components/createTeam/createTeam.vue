@@ -34,6 +34,7 @@
       </span>
     </div>
     <button v-on:click="createTeam()">Create Team</button>
+    <button v-on:click="back()">back</button>
   </div>
 </template>
 
@@ -66,7 +67,8 @@ export default {
                 teamName: this.teamName,
                 maxTeamMembers: this.maxTeamMembers,
                 pwProtected: this.passwordProtected,
-                password: this.password
+                password: this.password,
+                challenged: false
             }
         )
         .then(() => {
@@ -80,6 +82,9 @@ export default {
             alert("A team with that name already exists!");
           }
         });
+    },
+    back: function () {
+      this.$root.$emit("showMakeSeeTeamBtnsMenu");
     },
   },
 };
