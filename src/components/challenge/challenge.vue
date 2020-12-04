@@ -39,6 +39,18 @@ export default {
             this.userTeam.challenged = true // challenged is true if the team has been challenged or sent a challenge
             team.challenged = true
             team.challenger = this.userTeam
+            this.$store
+                .dispatch("challengeTeam", {
+                        challenged: team,
+                        challenger: this.userTeam
+                    }
+                )
+                .then(() => {
+                    this.$root.$emit("showLogo");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         accept: function() {
             this.userTeam.challenged = true;
@@ -56,13 +68,13 @@ export default {
     },
     created: function() {
         let teamID = store.state.userProfile.inteam;
-        let team = await fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
-        this.userTeam = team;
+        //let team = fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
+        //this.userTeam = team;
         //bad cludge, please ignore
         let thisPtr = this
         this.$store.dispatch('fetchChallengeTeams').then(function(teamList) {
             thisPtr.teamsOpenForChallenge = teamList
-            thisPtr.teamsOpenForChallenge.remove(this.userTeam) // trying to remove own team from teamsOpenForChallenge list
+            //thisPtr.teamsOpenForChallenge.remove(this.userTeam) // trying to remove own team from teamsOpenForChallenge list
         })
     }  
 }

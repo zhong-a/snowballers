@@ -14,6 +14,7 @@
           </div>
           <button v-on:click="join(team)">Join Team</button>
       </li>
+      <button v-on:click="back()">back</button>
     </ul>  
   </div>
 </template>
@@ -37,6 +38,9 @@ export default {
       this.$root.$emit("joinTeamBtnClicked");
       this.$store.dispatch("joinTeam", team);
     },
+    back: function () {
+      this.$root.$emit("showMakeSeeTeamBtnsMenu")
+    }
   },
   created: function() {
     //bad cludge, please ignore

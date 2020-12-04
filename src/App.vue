@@ -7,7 +7,7 @@
       </div>
 
       <makeSeeTeamsBtns v-if="showMakeSeeTeamBtns" />
-      <challengeBtn v-else-if="showLogin === false"/>
+      <showChallengesBtn v-else-if="showShowChallengesBtn" />
       
       
     </div>
@@ -17,7 +17,7 @@
         <createTeam v-on:team-created="teamCreated()"/>
       </div>
       <div id="challenge-menu-div" v-if="showOpenChallenges">
-        <!--challenges -->
+        <challenges />
       </div>
       <div id="team-menu-div" v-if="showTeamMenu">
         <teamsMenu />
@@ -51,7 +51,7 @@ import eventsMenu from "./components/eventsMenu/eventsMenu.vue";
 import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
-//import challenges from "./components/challenge/challenge"
+import challenges from "./components/challenge/challenge"
 import showChallengesBtn from "./components/challenge/showChallengesBtn"
 
 export default {
@@ -82,6 +82,8 @@ export default {
     createEvent,
     eventsMenu,
     chat,
+    showChallengesBtn,
+    challenges
   },
   methods: {
     hideAllComponents: function() {
@@ -90,6 +92,8 @@ export default {
       this.showTeamMenu = false;
       this.showMakeSeeTeamBtns = false;
       this.showMap = false;
+      this.showShowChallengesBtn = false;
+      this.showOpenChallenges = false;
     },
 
     logIn: function() {
@@ -109,7 +113,7 @@ export default {
 
     teamCreated: function() {
       this.hideAllComponents();
-      this.showMakeSeeTeamBtns = true;
+      this.showShowChallengesBtn = true;
     },
 
     teamJoined: function() {
@@ -129,6 +133,11 @@ export default {
     openChallenges: function() {
       this.hideAllComponents();
       this.showOpenChallenges = true;
+    },
+
+    logo: function() {
+      this.hideAllComponents();
+      // TODO: show a logo or something to fill the space
     }
   },
   mounted: function() {
@@ -155,6 +164,16 @@ export default {
     this.$root.$on("showChallengesBtnClicked", () => {
       this.openChallenges();
     });
+
+    this.$root.$on("showMakeSeeTeamBtnsMenu",  () => {
+      this.hideAllComponents();
+      this.showMakeSeeTeamBtns = true;
+    });
+
+    this.$root.$on("showLogo", () => {
+      this.logo();
+    });
+
 
   },
 };

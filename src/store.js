@@ -91,6 +91,7 @@ export default new Vuex.Store({
             // set user profile in state
             commit("setUserProfile", data);
 
+            
             // change route to dashboard
             //router.push("/");
         },
@@ -238,6 +239,20 @@ export default new Vuex.Store({
             })
             //commit changes local storage
             dispatch("fetchUserProfile", user);
+        },
+
+        async challengeTeam({ commit, state}, form) {
+            let uid = this.state.userProfile.uid
+            await fb.teamsCollection.doc(form.challenger).update({
+                challenged: true,
+                challenger: form.challenged,
+            })
+            await fb.teamsCollection.doc(form.challenged).update({
+                challenged: true,
+                challenger: form.challenger,
+            })
+
+            // need to commit ?
         }
     }
 });

@@ -11,6 +11,7 @@ export default {
   },
   methods: {
     showChallengesClicked: function() {
+      console.log("show challenges button clicked")
       this.$root.$emit("showChallengesBtnClicked");
     },
   },
