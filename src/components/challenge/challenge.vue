@@ -7,7 +7,7 @@
     </div>
     <div v-else>
         <ul>
-            <li v-for="team in teams" :key="team.name">
+            <li v-for="team in teamsOpenForChallenge" :key="team.name">
             <p>
                 <span> {{ team.name }} </span> <br />
                 <span>
@@ -36,12 +36,13 @@ export default {
     methods: {
         // i dont think these updates are happening in firestore aka these do not work yet :'(
         challenge: function (team) {
+            console.log("challenging a team!")
             this.userTeam.challenged = true // challenged is true if the team has been challenged or sent a challenge
             team.challenged = true
             team.challenger = this.userTeam
             this.$store
                 .dispatch("challengeTeam", {
-                        challenged: team,
+                        challenging: team,
                         challenger: this.userTeam
                     }
                 )

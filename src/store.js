@@ -147,7 +147,7 @@ export default new Vuex.Store({
         async fetchChallengeTeams({ commit }) {
             // fetch teams
             let teamsList = [];
-            const teams = await fb.teamsCollection.where("challenge", "!=", true).get();
+            const teams = await fb.teamsCollection.where("challenged", "!=", true).get();
             teams.forEach(function (doc) {
                 let data = doc.data();
                 data["name"] = doc.id;
@@ -242,12 +242,13 @@ export default new Vuex.Store({
         },
 
         async challengeTeam({ commit, state}, form) {
+            console.log("line 245")
             let uid = this.state.userProfile.uid
             await fb.teamsCollection.doc(form.challenger).update({
                 challenged: true,
-                challenger: form.challenged,
+                challenger: form.challenging,
             })
-            await fb.teamsCollection.doc(form.challenged).update({
+            await fb.teamsCollection.doc(form.challenging).update({
                 challenged: true,
                 challenger: form.challenger,
             })

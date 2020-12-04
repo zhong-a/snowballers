@@ -67,7 +67,8 @@ export default {
                 teamName: this.teamName,
                 maxTeamMembers: this.maxTeamMembers,
                 pwProtected: this.passwordProtected,
-                password: this.password
+                password: this.password,
+                challenged: false
             }
         )
         .then(() => {
