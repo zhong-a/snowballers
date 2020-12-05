@@ -13,7 +13,7 @@ export default {
  name: "Map", // Map needs to be capitalized b/c theres already an html element called map
  data() {
    return{
-     center: [42.290928, -83.717708], // Pierpont Commons
+     center: [42.285435,-83.724855],
 
       // Hard code some locations into create event to make for easier and more legal location selection
      fights: [
@@ -55,7 +55,7 @@ export default {
    setupLeafletMap: function () {
 
      //## make base map
-     const mapDiv = L.map("mapContainer").setView(this.center, 13);
+     const mapDiv = L.map("mapContainer").setView(this.center, 14);
      
      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
