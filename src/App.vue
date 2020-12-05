@@ -101,6 +101,11 @@ export default {
       this.showMakeSeeTeamBtns = true;
     },
 
+    logOut: function() {
+      this.hideAllComponents();
+      this.showLogin = true;
+    },
+
     openCreateTeamForm: function() {
       this.hideAllComponents();
       this.showCreateTeam = true;
@@ -174,7 +179,9 @@ export default {
       this.logo();
     });
 
-
+    this.$root.$on("logOutBtnClicked", () => {
+      this.logOut();
+    })
   },
 };
 </script>

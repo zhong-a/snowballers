@@ -2,6 +2,7 @@
     <div id="container">
         <button @click="makeTeamBtnClicked">Make Team</button>
         <button @click="seeTeamsBtnClicked">See Teams</button>
+        <button @click="logOut">Log Out</button>
     </div>
 </template>
 
@@ -18,6 +19,16 @@ export default {
     seeTeamsBtnClicked: function() {
       this.$root.$emit("seeTeamsBtnClicked");
     },
+
+    logOut: function() {
+      console.log("logout button clicked")
+      let thisptr = this;
+      this.$store.dispatch('logout').then(() => {
+        thisptr.$root.$emit("logOutBtnClicked");
+      }).catch(err => {
+        alert("error with logging out: " + err)
+      })
+    }
   },
 };
 </script>
