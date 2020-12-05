@@ -7,6 +7,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { possibleFightLocations } from "./possibleFightLocations"; // change this file path if needed
 
 export default {
  name: "Map", // Map needs to be capitalized b/c theres already an html element called map
@@ -34,13 +35,15 @@ export default {
          location: "Palmer Field", 
          time: "10:00 AM"
         },
+        {
+         team1: "Gold",
+         team2: "Silver",
+         location: "The Diag", 
+         time: "10:00 AM"
+        },
      ],
 
-     coordinates: {
-       "Palmer Field": [42.280617,-83.732652],
-       "North Campus Grove": [42.292149,-83.715727],
-       "Arborcrest Cemetery": [42.289078,-83.709831],
-     },
+     coordinates: possibleFightLocations,
    }
  },
 
@@ -83,22 +86,19 @@ export default {
       for (let location in locationPopupMsgs) {
         let msg = locationPopupMsgs[location];
 
-        console.log(msg);
-
         let coordinates = this.coordinates[location];
 
-// icon colors:
-// https://github.com/pointhi/leaflet-color-markers
-        var greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
+
+        let greenIcon = new L.Icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
         
-        L.marker(coordinates, {icon: greenIcon})
+        L.marker(coordinates, this.getIconOptions(location))
           .bindPopup(msg)
           .addTo(mapDiv)
           ;
@@ -127,7 +127,27 @@ Blue markers by default, yellow for ongoing fight
 
      // return True if theres a current fight
      // False otherwise
-   }
+     return true;
+   },
+
+    // icon colors:
+    // https://github.com/pointhi/leaflet-color-markers
+   getIconOptions: function(location) {
+     const iconColor = (this.isThereAFightHereRightNow(location)) ? "red" : "blue";
+     
+     let coloredIcon = new L.Icon({
+          iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${iconColor}.png`,
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+      return (
+        {icon: coloredIcon}
+      )
+   },
  },
 
  mounted() {

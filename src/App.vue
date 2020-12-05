@@ -219,4 +219,6 @@ a {
   grid-template-columns: auto auto; /* make 2 columns */
 }
 
+/* more css in a new css file */
+@import url("./App.css");
 </style>
