@@ -5,8 +5,8 @@
       <div id="login-div" v-if="showLogin">
         <loginfb />
       </div>
-      <div v-else>
-        <makeSeeBtns v-if="showMakeSeeBtns" />
+      <div v-else-if="showMakeSeeBtns">
+        <makeSeeBtns />
       </div>
       
       
@@ -97,7 +97,7 @@ export default {
       this.showLogin = false;
       this.showCreateTeam = false;
       this.showTeamMenu = false;
-      this.showMakeSeeTeamBtns = false;
+      this.showMakeSeeBtns = false;
       this.showMap = false;
       this.showShowChallengesBtn = false;
       this.showOpenChallenges = false;
@@ -125,7 +125,7 @@ export default {
 
     teamCreated: function() {
       this.hideAllComponents();
-      this.showMakeSeeBtns = true;
+      this.showMakeSeeBtns = true;  // will be challenge btns now
     },
 
     teamJoined: function() {
@@ -147,6 +147,11 @@ export default {
       this.hideAllComponents();
       this.showOpenChallenges = true;
     },
+
+    openMakeSeeBtns: function() {
+      this.hideAllComponents();
+      this.showMakeSeeBtns = true;
+    }
   },
   mounted: function() {
     this.$root.$on("logInBtnClicked", () => {
@@ -173,8 +178,8 @@ export default {
       this.openChallenges();
     });
 
-    this.$root.$on("showMakeSeeTeamBtnsMenu",  () => {
-      console.log("where is this getting fired from?? Shouldn't be anywhere")
+    this.$root.$on("showMakeSeeBtnsMenu",  () => {
+      this.openMakeSeeBtns();
     });
 
     this.$root.$on("showLogo", () => {

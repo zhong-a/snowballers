@@ -70,9 +70,7 @@ export default new Vuex.Store({
                     form.password
                 );
                 await fb.usersCollection.doc(user.user.uid).set({
-                    name: form.name,
-                    inteam: '_',
-                    owner: false
+                    name: form.name
                 });
             } catch(err) {
                 console.log(err)
@@ -270,7 +268,10 @@ export default new Vuex.Store({
                 currentMembers: form.currentMembers + 1,
             })
             //commit changes local storage
-            dispatch("fetchUserProfile", user);
+            this.dispatch("fetchUserProfile", user.user);
+            return new Promise(function(resolve, reject) {
+                resolve("team joined")
+            });
         },
         async joinEvent({ commit, state }, form) {
             let uid = this.state.userProfile.uid
@@ -286,7 +287,7 @@ export default new Vuex.Store({
                 currentAttending: form.currentAttending + 1,
             })
             //commit changes local storage
-            dispatch("fetchUserProfile", user);
+            this.dispatch("fetchUserProfile", user);
         },
 
         async challengeTeam({ commit, state}, form) {

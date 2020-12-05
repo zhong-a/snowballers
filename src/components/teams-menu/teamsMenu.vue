@@ -39,7 +39,7 @@ export default {
       this.$store.dispatch("joinTeam", team);
     },
     back: function () {
-      this.$root.$emit("showMakeSeeTeamBtnsMenu")
+      this.$root.$emit("showMakeSeeBtnsMenu")
     }
   },
   created: function() {

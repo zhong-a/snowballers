@@ -1,18 +1,17 @@
 <template>
     <div id="container">
-        <div class="join-make-btns" v-if="user.inteam === '_'">
+        <div class="join-make-btns" v-if="teamless === true">
           <button @click="makeTeamBtnClicked">Make Team</button>
           <button @click="seeTeamsBtnClicked">See Teams</button>
-          <button @click="logOut">Log Out</button>
         </div>
-        <div v-else-if="user.owner">
+        <div v-else-if="user.owner === true">
           <button @click="showChallengesClicked">Show Challenges</button>
         </div>
         <div class="col1" v-else>
           <h1>Snowballers</h1>
           <p>Welcome to the Snowballers' Snowball Fight Matching App</p>
         </div>
-          
+        <button @click="logOut">Log Out</button>
     </div>
 </template>
 
@@ -22,6 +21,7 @@ export default {
   data() {
     return {
       user: {},
+      teamless: true,
     };
   },
   methods: {
@@ -49,7 +49,8 @@ export default {
   },
   created : function () {
     this.user = store.state.userProfile;
-    console.log(this.user.inteam)
+    console.log(this.user.inteam);
+    this.teamless = !(this.user.hasOwnProperty("inteam"));
   }
 };
 </script>
