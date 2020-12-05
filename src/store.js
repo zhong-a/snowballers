@@ -47,6 +47,20 @@ export default new Vuex.Store({
                 resolve("ok");
             });
         },
+        async logout({ dispatch }) {
+            try{
+                await fb.auth.signOut();
+            } catch(err) {
+                console.log(err)
+                return new Promise(function (resolve, reject) {
+                    reject(err.message);
+                })
+            }
+            console.log("fb signout done")
+            return new Promise(function(resolve, reject) {
+                resolve("log out ok");
+            })
+        },
         async signup({ dispatch }, form) {
             // sign user up
             let user;
@@ -55,9 +69,10 @@ export default new Vuex.Store({
                     form.email,
                     form.password
                 );
-                await fb.usersCollection.doc(user.uid).set({
+                await fb.usersCollection.doc(user.user.uid).set({
                     name: form.name,
-                    title: form.title,
+                    inteam: '_',
+                    owner: false
                 });
             } catch(err) {
                 console.log(err)
@@ -87,11 +102,44 @@ export default new Vuex.Store({
             const userProfile = await fb.usersCollection.doc(user.uid).get();
 
             let data = userProfile.data()
-            data['uid'] = user.uid
-            // set user profile in state
-            commit("setUserProfile", data);
+            //check for auto team removal
+            if (data.hasOwnProperty('inteam')) {
+                let teamid = data.inteam;
+                const team = await fb.teamsCollection.doc(teamid).get();
+                let teamData = team.data();
+                if (teamData.hasOwnProperty('fight')) {
+                    let fightid = teamData.fight;
+                    const fight = fb.fightsCollection.doc(fightid).get();
+                    let fightData = fight.data();
 
-            
+                    let time = fightData.time;
+                    const millisecondsInAnHour = 3600000;
+                    if (Date.now() < (time + millisecondsInAnHour)) {
+                        //The fight has finished
+                        //Update the user data
+                        delete data.inteam;
+                        delete data.owner;
+                        await fb.usersCollection.doc(user.uid).set(data);
+
+                        //update the team data
+                        delete teamdata.members[user.uid]
+                        teamdata.currentMembers = teamdata.currentMembers - 1;
+                        if (teamdata.currentMembers === 0) {
+                            //the team is now empty, remove it
+                            await fb.teamsCollection.doc(teamid).delete();
+                        } else {
+                            await fb.teamsCollection.doc(teamid).set(teamdata);
+                        }
+                    } else {
+                        alert("What are you doing here? You should be in your snowball fight!")
+                    }
+                }
+            }
+
+
+            // set user profile in state
+            data['uid'] = user.uid
+            commit("setUserProfile", data);
             // change route to dashboard
             //router.push("/");
         },
@@ -242,7 +290,6 @@ export default new Vuex.Store({
         },
 
         async challengeTeam({ commit, state}, form) {
-            console.log("line 245")
             let uid = this.state.userProfile.uid
             await fb.teamsCollection.doc(form.challenger).update({
                 challenged: true,

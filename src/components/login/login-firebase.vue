@@ -62,7 +62,6 @@ export default {
       },
       signupForm: {
         name: '',
-        title: '',
         email: '',
         password: ''
       },
@@ -90,11 +89,11 @@ export default {
       
     },
     signup() {
+      let thisptr = this;
       this.$store.dispatch('signup', {
         email: this.signupForm.email,
         password: this.signupForm.password,
-        name: this.signupForm.name,
-        title: this.signupForm.title
+        name: this.signupForm.name
       }).then(() => {
         thisptr.$root.$emit("logInBtnClicked");
       }).catch(err => {
