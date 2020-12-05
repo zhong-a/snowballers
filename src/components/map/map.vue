@@ -88,18 +88,17 @@ export default {
 
         let coordinates = this.coordinates[location];
 
-// icon colors:
-// https://github.com/pointhi/leaflet-color-markers
-        var greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
+
+        let greenIcon = new L.Icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
         
-        L.marker(coordinates, {icon: greenIcon})
+        L.marker(coordinates, this.getIconOptions(location))
           .bindPopup(msg)
           .addTo(mapDiv)
           ;
@@ -128,7 +127,27 @@ Blue markers by default, yellow for ongoing fight
 
      // return True if theres a current fight
      // False otherwise
-   }
+     return true;
+   },
+
+    // icon colors:
+    // https://github.com/pointhi/leaflet-color-markers
+   getIconOptions: function(location) {
+     const iconColor = (this.isThereAFightHereRightNow(location)) ? "red" : "blue";
+     
+     let coloredIcon = new L.Icon({
+          iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${iconColor}.png`,
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+      return (
+        {icon: coloredIcon}
+      )
+   },
  },
 
  mounted() {
