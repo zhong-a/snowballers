@@ -47,6 +47,20 @@ export default new Vuex.Store({
                 resolve("ok");
             });
         },
+        async logout({ dispatch }) {
+            try{
+                await fb.auth.signOut();
+            } catch(err) {
+                console.log(err)
+                return new Promise(function (resolve, reject) {
+                    reject(err.message);
+                })
+            }
+            console.log("fb signout done")
+            return new Promise(function(resolve, reject) {
+                resolve("log out ok");
+            })
+        },
         async signup({ dispatch }, form) {
             // sign user up
             let user;
