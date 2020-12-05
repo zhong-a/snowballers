@@ -35,6 +35,11 @@
         <Map />
       </div>
 
+      <!-- remove this later --> 
+      <div>
+       <create-fight />
+      </div>
+
     </main>
   </div>
 </template>
@@ -52,6 +57,8 @@ import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
 import challenges from "./components/challenge/challenge"
+
+import createFight from "./components/createFight/createFight.vue"; // remove this later and put into challenge stuff
 
 export default {
   name: "app",
@@ -79,7 +86,11 @@ export default {
     createEvent,
     eventsMenu,
     chat,
-    challenges
+    challenges,
+
+
+    // remove this later:
+    createFight,
   },
   methods: {
     hideAllComponents: function() {
