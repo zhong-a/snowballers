@@ -70,9 +70,7 @@ export default new Vuex.Store({
                     form.password
                 );
                 await fb.usersCollection.doc(user.user.uid).set({
-                    name: form.name,
-                    inteam: '_',
-                    owner: false
+                    name: form.name
                 });
             } catch(err) {
                 console.log(err)

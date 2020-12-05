@@ -72,7 +72,7 @@ export default {
             }
         )
         .then(() => {
-          this.$emit("team-created");
+          //this.$emit("team-created");
 
           // this was broken, but now it works after we fixed the login button issues, so it was probably the same bug
           this.$root.$emit("createTeamBtnClicked");
@@ -84,7 +84,7 @@ export default {
         });
     },
     back: function () {
-      this.$root.$emit("showMakeSeeTeamBtnsMenu");
+      this.$root.$emit("showMakeSeeBtnsMenu");
     },
   },
 };
