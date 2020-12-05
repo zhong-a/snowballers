@@ -84,6 +84,6 @@ export default {
     }
     .sendbutton {
         margin-left: 5px;
-        //background-color: #58a9eb;
+        background-color: #58a9eb;
     }
 </style>

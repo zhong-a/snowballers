@@ -1,53 +1,93 @@
-<template>
-  <div id="challengeMenu">
-    <b>Team Options</b>
-    <div id="accept-or-reject-div" v-if="userTeam.challenged">
-        <button v-on:click="accept">Accept</button>
-        <button v-on:click="reject">Reject</button>
-    </div>
-    <div v-else>
-        <ul>
-            <li v-for="team in teamsOpenForChallenge" :key="team.name">
-            <p>
-                <span> {{ team.name }} </span> <br />
-                <span>
-                {{ team.currentMembers }}/{{ team.maxMembers }} members
+<template>        
+    <div id="challengeMenu">
+        <!--div id="accept-or-reject-div" v-if="userTeam.challenged === true">
+            <button v-on:click="accept">Accept</button>
+            <button v-on:click="reject">Reject</button>
+        </div>
+
+        <div v-else-->
+        <div>
+            <h1 id="menu-title">Create a Fight</h1>
+
+            <div class="menu-option">
+            <span class="left">Choose a fight location:</span>
+            <span class="right">
+                <select v-model="selectedLocation" name="#">
+                <option
+                    v-for="location in fightLocations"
+                    :value="location"
+                    v-bind:key="location"
+                >
+                    {{ location }}
+                </option>
+                </select>
+            </span>
+            </div>
+
+            <div class="menu-option">
+                <span class="left">Choose a fight date:</span>
+                <span class="right">
+                    <input type="date" v-model="fightDate" />
                 </span>
-                <button v-on:click="challenge(team)">Challenge Team!</button>
-            </p>
-            </li>
-        </ul> 
+            </div>
+
+            <div class="menu-option">
+                <span class="left">Choose a fight time:</span>
+                <span class="right">
+                    <input type="time" v-model="fightTime" />
+                </span>
+            </div>
+            <b>Team Options</b>
+            <ul>
+                <li v-for="team in teamsOpenForChallenge" :key="team.name">
+                <p>
+                    <span> {{ team.name }} </span> <br />
+                    <span>
+                    {{ team.currentMembers }}/{{ team.maxMembers }} members
+                    </span>
+                    <button v-on:click="challenge(team.name)">Challenge Team!</button>
+                </p>
+                </li>
+            </ul> 
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import store from '../../store.js'
+import * as fb from '../../firebase/firebase'
+import Firebase from "firebase";
+import { possibleFightLocations } from "./../map/possibleFightLocations.js";
+const locationsArray = Object.keys(possibleFightLocations);
 export default {
-    // props: {
-    //   userTeam: String,  
-    // },
     data() {
         return {
             teamsOpenForChallenge: [],
-            userTeam: {},
+            userTeamName: "",
+            fightLocations: locationsArray,
+            selectedLocation: "",
+            fightDate: "",
+            fightTime: "",
         };
     },
     methods: {
         // i dont think these updates are happening in firestore aka these do not work yet :'(
         challenge: function (team) {
             console.log("challenging a team!")
-            this.userTeam.challenged = true // challenged is true if the team has been challenged or sent a challenge
+            console.log(team)
+            /*this.userTeam.challenged = true
             team.challenged = true
-            team.challenger = this.userTeam
+            team.challenger = this.userTeamName*/
             this.$store
                 .dispatch("challengeTeam", {
                         challenging: team,
-                        challenger: this.userTeam
+                        challenger: this.userTeamName,
+                        location: this.selectedLocation,
+                        date: this.fightDate,
+                        time: this.fightTime,
                     }
                 )
                 .then(() => {
-                    this.$root.$emit("showLogo");
+                    this.$root.$emit("showMakeSeeBtnsMenu");   // should become Logo
                 })
                 .catch((error) => {
                     console.log(error);
@@ -68,15 +108,17 @@ export default {
         
     },
     created: function() {
-        let teamID = store.state.userProfile.inteam;
-        //let team = fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
-        //this.userTeam = team;
+        let teamID = this.$store.state.userProfile.inteam;
+        let team = fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
+        this.userTeamName = teamID;
+        console.log("user's team " + this.userTeamName);
         //bad cludge, please ignore
         let thisPtr = this
         this.$store.dispatch('fetchChallengeTeams').then(function(teamList) {
             thisPtr.teamsOpenForChallenge = teamList
             //thisPtr.teamsOpenForChallenge.remove(this.userTeam) // trying to remove own team from teamsOpenForChallenge list
         })
+        console.log(thisPtr.teamsOpenForChallenge);
     }  
 }
 </script>

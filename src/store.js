@@ -41,7 +41,7 @@ export default new Vuex.Store({
             }
 
             // fetch user profile and set in state
-            dispatch("fetchUserProfile", user.user);
+            await dispatch("fetchUserProfile", user.user)
 
             return new Promise(function (resolve, reject) {
                 resolve("ok");
@@ -141,6 +141,23 @@ export default new Vuex.Store({
             // change route to dashboard
             //router.push("/");
         },
+
+        async challengeTeam({ commit, state}, form) {
+            let fightObject = {
+                team1: form.challenger,
+                team2: form.challenging,
+                locaton: form.locaton,
+                date: form.date,
+                time: form.time,
+                accepted: false
+            };
+            let fightName = form.challenger + " vs. " + form.challenging;
+            console.log(fightName)
+            await fb.fightsCollection
+                .doc(fightName)
+                .set(fightObject)
+        },
+
         async createTeam({ commit, state }, form) {
             // see if the team name has been taken
             let snapshot = await fb.teamsCollection
@@ -158,7 +175,8 @@ export default new Vuex.Store({
                 password: form.password,
                 maxMembers: form.maxTeamMembers,
                 currentMembers: 1,
-                members: {}
+                members: {},
+                challenged: false
             };
             teamObject["members"][uid] = true;
             await fb.teamsCollection

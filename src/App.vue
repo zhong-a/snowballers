@@ -17,6 +17,7 @@
         <createTeam v-on:team-created="teamCreated()"/>
       </div>
       <div id="challenge-menu-div" v-if="showOpenChallenges">
+        this is where challenges should go
         <challenges />
       </div>
       <div id="team-menu-div" v-if="showTeamMenu">
@@ -35,11 +36,6 @@
         <Map />
       </div>
 
-      <!-- remove this later --> 
-      <div>
-       <create-fight />
-      </div>
-
     </main>
   </div>
 </template>
@@ -56,9 +52,7 @@ import eventsMenu from "./components/eventsMenu/eventsMenu.vue";
 import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
-import challenges from "./components/challenge/challenge"
-
-import createFight from "./components/createFight/createFight.vue"; // remove this later and put into challenge stuff
+import challenges from "./components/challenge/challenge.vue";
 
 export default {
   name: "app",
@@ -87,10 +81,6 @@ export default {
     eventsMenu,
     chat,
     challenges,
-
-
-    // remove this later:
-    createFight,
   },
   methods: {
     hideAllComponents: function() {
