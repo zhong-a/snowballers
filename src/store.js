@@ -69,9 +69,10 @@ export default new Vuex.Store({
                     form.email,
                     form.password
                 );
-                await fb.usersCollection.doc(user.uid).set({
+                await fb.usersCollection.doc(user.user.uid).set({
                     name: form.name,
-                    title: form.title,
+                    inteam: '_',
+                    owner: false
                 });
             } catch(err) {
                 console.log(err)
@@ -101,7 +102,6 @@ export default new Vuex.Store({
             const userProfile = await fb.usersCollection.doc(user.uid).get();
 
             let data = userProfile.data()
-
             //check for auto team removal
             if (data.hasOwnProperty('inteam')) {
                 let teamid = data.inteam;
@@ -135,7 +135,8 @@ export default new Vuex.Store({
                     }
                 }
             }
-            
+
+
             // set user profile in state
             data['uid'] = user.uid
             commit("setUserProfile", data);
@@ -289,7 +290,6 @@ export default new Vuex.Store({
         },
 
         async challengeTeam({ commit, state}, form) {
-            console.log("line 245")
             let uid = this.state.userProfile.uid
             await fb.teamsCollection.doc(form.challenger).update({
                 challenged: true,

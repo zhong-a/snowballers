@@ -5,9 +5,9 @@
       <div id="login-div" v-if="showLogin">
         <loginfb />
       </div>
-
-      <makeSeeTeamsBtns v-if="showMakeSeeTeamBtns" />
-      <showChallengesBtn v-else-if="showShowChallengesBtn" />
+      <div v-else>
+        <makeSeeBtns v-if="showMakeSeeBtns" />
+      </div>
       
       
     </div>
@@ -43,7 +43,7 @@
 import loginfb from "./components/login/login-firebase.vue";
 import login from "./components/login/login.vue";
 import leftSidebar from "./components/left-sidebar/leftSidebar.vue";
-import makeSeeTeamsBtns from "./components/left-sidebar/makeSeeTeamsBtns.vue";
+import makeSeeBtns from "./components/left-sidebar/makeSeeBtns.vue";
 import createTeam from "./components/createTeam/createTeam.vue";
 import teamsMenu from "./components/teams-menu/teamsMenu.vue";
 import createEvent from "./components/createEvent/createEvent.vue";
@@ -52,22 +52,19 @@ import chat from "./components/chat/chat.vue";
 const regeneratorRuntime = require("regenerator-runtime");
 import Map from "./components/map/map.vue"; // cant be "map" because of html element name conflict
 import challenges from "./components/challenge/challenge"
-import showChallengesBtn from "./components/challenge/showChallengesBtn"
 
 export default {
   name: "app",
   data() {
     return {
       showLogin: true,
-      //showSidebar: true,// do we ever hide the sidebar?
       showCreateTeam: false,
       showTeamMenu: false,
-      showMakeSeeTeamBtns: false,
+      showMakeSeeBtns: false,
       showMap: true,
       showCreateEvent: true,
       showEventsMenu:true,
       showChat: true,
-      showShowChallengesBtn: false,
       showOpenChallenges: false,
     };
   },
@@ -75,14 +72,13 @@ export default {
     login,
     loginfb,
     leftSidebar,
-    makeSeeTeamsBtns,
+    makeSeeBtns,
     createTeam,
     teamsMenu,
     Map,
     createEvent,
     eventsMenu,
     chat,
-    showChallengesBtn,
     challenges
   },
   methods: {
@@ -98,7 +94,7 @@ export default {
 
     logIn: function() {
       this.hideAllComponents();
-      this.showMakeSeeTeamBtns = true;
+      this.showMakeSeeBtns = true;
     },
 
     logOut: function() {
@@ -118,32 +114,28 @@ export default {
 
     teamCreated: function() {
       this.hideAllComponents();
-      this.showShowChallengesBtn = true;
+      this.showMakeSeeBtns = true;
     },
 
     teamJoined: function() {
       this.hideAllComponents();
-      this.showMakeSeeTeamBtns = false;
-      this.showShowChallengesBtn = true;
+      this.showMakeSeeBtns = true;
     },
 
     eventCreated: function() {
       this.hideAllComponents();
+      this.showMakeSeeBtns = true;
     },
 
     eventJoined: function() {
       this.hideAllComponents();
+      this.showMakeSeeBtns = true;
     },
 
     openChallenges: function() {
       this.hideAllComponents();
       this.showOpenChallenges = true;
     },
-
-    logo: function() {
-      this.hideAllComponents();
-      // TODO: show a logo or something to fill the space
-    }
   },
   mounted: function() {
     this.$root.$on("logInBtnClicked", () => {
@@ -171,8 +163,7 @@ export default {
     });
 
     this.$root.$on("showMakeSeeTeamBtnsMenu",  () => {
-      this.hideAllComponents();
-      this.showMakeSeeTeamBtns = true;
+      console.log("where is this getting fired from?? Shouldn't be anywhere")
     });
 
     this.$root.$on("showLogo", () => {
@@ -223,4 +214,6 @@ a {
   grid-template-columns: auto auto; /* make 2 columns */
 }
 
+/* more css in a new css file */
+@import url("./App.css");
 </style>
