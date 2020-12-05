@@ -267,11 +267,13 @@ export default new Vuex.Store({
                 members: form.members,
                 currentMembers: form.currentMembers + 1,
             })
+            this.state.userProfile.inteam = form.name;
+            this.state.userProfile.owner = false;
             //commit changes local storage
-            this.dispatch("fetchUserProfile", user.user);
+            /*this.dispatch("fetchUserProfile", user.user);
             return new Promise(function(resolve, reject) {
                 resolve("team joined")
-            });
+            });*/
         },
         async joinEvent({ commit, state }, form) {
             let uid = this.state.userProfile.uid
@@ -287,7 +289,9 @@ export default new Vuex.Store({
                 currentAttending: form.currentAttending + 1,
             })
             //commit changes local storage
-            this.dispatch("fetchUserProfile", user);
+            /*this.dispatch("fetchUserProfile", user);*/
+            this.state.userProfile.attending = form.name;
+            this.state.userProfile.eventOwner = false;
         },
 
         async challengeTeam({ commit, state}, form) {
