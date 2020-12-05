@@ -21,25 +21,29 @@ export default {
          team1: "Alphas",
          team2: "Omegas",
          location: "North Campus Grove", 
-         time: "9:00 PM"
+         time: "21:00",
+         date: "2020-12-03",
         },
         {
          team1: "Surfers",
          team2: "Bikers",
          location: "North Campus Grove", 
-         time: "3:00 PM"
+         time: "15:00",
+         date: "2017-06-01",
         },
         {
          team1: "Couzens",
          team2: "Alice",
          location: "Palmer Field", 
-         time: "10:00 AM"
+         time: "10:00",
+         date: "2017-06-01",
         },
         {
          team1: "Gold",
          team2: "Silver",
          location: "The Diag", 
-         time: "10:00 AM"
+         time: "10:00",
+         date: "2017-06-01",
         },
      ],
 
@@ -79,7 +83,7 @@ export default {
           locationPopupMsgs[location] = "";
         }
 
-        locationPopupMsgs[location] += `${fight.team1} vs ${fight.team2}<br>${fight.time}<br><br>`;
+        locationPopupMsgs[location] += `${fight.team1} vs ${fight.team2}<br>${fight.time}<br>${fight.date}<br><br>`;
       }
 
       //add markers with their correponding popup messages to map
@@ -127,13 +131,13 @@ Blue markers by default, yellow for ongoing fight
 
      // return True if theres a current fight
      // False otherwise
-     return true;
+     return !true;
    },
 
     // icon colors:
     // https://github.com/pointhi/leaflet-color-markers
    getIconOptions: function(location) {
-     const iconColor = (this.isThereAFightHereRightNow(location)) ? "red" : "blue";
+     const iconColor = (this.isThereAFightHereRightNow(location)) ? "red" : "grey";
      
      let coloredIcon = new L.Icon({
           iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${iconColor}.png`,
