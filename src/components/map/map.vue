@@ -21,8 +21,8 @@ export default {
          team1: "Alphas",
          team2: "Omegas",
          location: "North Campus Grove", 
-         time: "21:00",
-         date: "2020-12-03",
+         time: "17:00",
+         date: "2020-12-05",
         },
         {
          team1: "Surfers",
@@ -112,26 +112,40 @@ export default {
    isThereAFightHereRightNow: function(location) {
 
      for (const fight of this.fights) {
-       const fightTime = fight.time;
+       
+       if (fight.location !== location) {
+         continue;
+       }
+       
+       const fightHours = parseInt(fight.time.split(":")[0]);
+       const fightMinutes = parseInt(fight.time.split(":")[1]);
+       const [fightYear, fightMonth, fightDay] = fight.date.split("-").map(i => parseInt(i));
+       
+       const curr = new Date();
+       const currHours = parseInt(curr.getHours());
+       const currMinutes = parseInt(curr.getMinutes());
+       const currYear = parseInt(curr.getFullYear());
+       const currMonth = parseInt(curr.getMonth()) + 1; // 0-indexed
+       const currDay = parseInt(curr.getDate());
 
-       const currentTime = (new Date());
+        //console.table({fightYear, fightMonth, fightDay})
+       //console.table({currYear, currMonth, currDay});
+       
+      if (currYear === fightYear && currMonth === fightMonth && currDay === fightDay) {
+        if (currHours === fightHours && currMinutes >= fightMinutes) {
+          console.log(fightHours)
+          return true;
+        }
+        else if (currHours === fightHours+1 && currMinutes <= fightMinutes) {
+          return true;
+        }
+      }
 
-       // todo
-
-       /*
-
-       if fightTime <= currentTime && currentTime <= fightTime:
-          reuturn True
-        else:
-          return False
-
-Blue markers by default, yellow for ongoing fight
-          */
      }
 
      // return True if theres a current fight
      // False otherwise
-     return !true;
+     return false;
    },
 
     // icon colors:

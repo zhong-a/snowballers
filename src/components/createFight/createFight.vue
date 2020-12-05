@@ -69,6 +69,6 @@ export default {
 }
 #create-fight-template {
   float: left;
-  width: 300px;
+  width: 350px;
 }
 </style> 
