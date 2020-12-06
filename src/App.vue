@@ -101,13 +101,18 @@ export default {
       this.showChat = false;
     },
 
-    logIn: function() {
-      this.hideAllComponents();
+    // the components to show in the default home state
+    // e.g. after logging in, maybe after creating a team, maybe after creating an event, etc...
+    showDefaultHomePage: function() {
       this.showMakeSeeBtns = true;
-
       this.showMap = true;
       this.showChat = true;
       this.showEventsMenu = true;
+    },
+
+    logIn: function() {
+      this.hideAllComponents();
+      this.showDefaultHomePage();
     },
 
     logOut: function() {
@@ -153,6 +158,9 @@ export default {
     openMakeSeeBtns: function() {
       this.hideAllComponents();
       this.showMakeSeeBtns = true;
+
+      // adding this b/c I think it might belong here, remove if not:
+      this.showDefaultHomePage();
     }
   },
   mounted: function() {
