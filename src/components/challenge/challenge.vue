@@ -1,6 +1,6 @@
 <template>        
     <div id="challengeMenu">
-        <div id="accept-or-reject-div" v-if="this.fightPending === true">
+        <div id="accept-or-reject-div" v-if="this.fightPending == true">
             <h1>Fight Pending against <b>{{ this.teamToFight }}</b>!</h1>
             <button v-on:click="accept">Accept</button>
             <button v-on:click="reject">Reject</button>

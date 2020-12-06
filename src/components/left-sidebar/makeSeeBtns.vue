@@ -1,11 +1,11 @@
 <template>
     <div id="container">
-        <div class="join-make-btns" v-if="teamless === true">
+        <div class="join-make-btns" v-if="teamless == true">
           <button @click="makeTeamBtnClicked">Make Team</button>
           <button @click="seeTeamsBtnClicked">See Teams</button>
         </div>
-        <div v-else-if="user.owner === true">
-          <div v-if="challengedATeam === true">
+        <div v-else-if="user.owner == true">
+          <div v-if="challengedATeam == true">
             <h1>You challenged {{ teamToFight }}! Have fun!</h1>
           </div>
           <div v-else>
@@ -59,9 +59,15 @@ export default {
     console.log(this.user.inteam);
     this.teamless = !(this.user.hasOwnProperty("inteam"));
     this.challengedATeam = this.user.hasOwnProperty("challenging");
-    if (this.challengedATeam === true) {
+    if (this.challengedATeam == true) {
       let team = this.$store.state.userProfile.challenging;
       this.teamToFight = team;
+    }
+    if (this.teamless == false) {
+      let thisPtr = this
+        this.$store.dispatch('fetchChallenger').then(function(team) {
+            thisPtr.teamToFight = team
+        })
     }
   }
 };

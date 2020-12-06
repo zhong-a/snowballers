@@ -17,7 +17,6 @@
         <createTeam v-on:team-created="teamCreated()"/>
       </div>
       <div id="challenge-menu-div" v-if="showOpenChallenges">
-        this is where challenges should go
         <challenges />
       </div>
       <div id="team-menu-div" v-if="showTeamMenu">

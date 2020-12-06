@@ -106,30 +106,29 @@ export default new Vuex.Store({
                 const team = await fb.teamsCollection.doc(teamid).get();
                 let teamData = team.data();
                 if (teamData.hasOwnProperty('fight')) {
-                    let fightid = teamData.fight;
-                    const fight = fb.fightsCollection.doc(fightid).get();
-                    let fightData = fight.data();
+                    let fightData = teamData.fight;
+                    if (fightData.accepted == true) {
+                        let time = fightData.time;
+                        const millisecondsInAnHour = 3600000;
+                        if (Date.now() < (time + millisecondsInAnHour)) {
+                            //The fight has finished
+                            //Update the user data
+                            delete data.inteam;
+                            delete data.owner;
+                            await fb.usersCollection.doc(user.uid).set(data);
 
-                    let time = fightData.time;
-                    const millisecondsInAnHour = 3600000;
-                    if (Date.now() < (time + millisecondsInAnHour)) {
-                        //The fight has finished
-                        //Update the user data
-                        delete data.inteam;
-                        delete data.owner;
-                        await fb.usersCollection.doc(user.uid).set(data);
-
-                        //update the team data
-                        delete teamdata.members[user.uid]
-                        teamdata.currentMembers = teamdata.currentMembers - 1;
-                        if (teamdata.currentMembers === 0) {
-                            //the team is now empty, remove it
-                            await fb.teamsCollection.doc(teamid).delete();
+                            //update the team data
+                            delete teamdata.members[user.uid]
+                            teamdata.currentMembers = teamdata.currentMembers - 1;
+                            if (teamdata.currentMembers === 0) {
+                                //the team is now empty, remove it
+                                await fb.teamsCollection.doc(teamid).delete();
+                            } else {
+                                await fb.teamsCollection.doc(teamid).set(teamdata);
+                            }
                         } else {
-                            await fb.teamsCollection.doc(teamid).set(teamdata);
+                            alert("What are you doing here? You should be in your snowball fight!")
                         }
-                    } else {
-                        alert("What are you doing here? You should be in your snowball fight!")
                     }
                 }
             }
@@ -247,21 +246,30 @@ export default new Vuex.Store({
             })
         },
         async fetchChallenger({commit}) {
+            console.log("fetching challenger (if there is one)")
             let teamName = this.state.userProfile.inteam;
-            const team = await fb.teamsCollection.where("challenger", "==", teamName).get();
+            const query = await fb.teamsCollection.where("challenger", "==", teamName).get();
+            let team = [];
+            query.forEach(function (doc) {
+                let data = doc.data();
+                data["name"] = doc.id;
+                team.push(data);
+            })
+            let challengerName = "no challenger"
             if (team.length > 1) {
                 console.log("oh dear that shouldn't happen")
             }
             else if (team.length == 1) {
                 let uid = this.state.userProfile.uid;
+                challengerName = team[0].name;
                 //update our internal state
                 await fb.usersCollection.doc(uid).update({
-                    acceptOrReject: team.name
+                    acceptOrReject: challengerName
                 })
-                dispatch("fetchUserProfile", user);
+                this.state.userProfile.acceptOrReject = challengerName;
             }
             return new Promise(function (resolve, reject) {
-                resolve("okieee")
+                resolve(challengerName)
             });
         },
         async fetchEvents({ commit }) {
