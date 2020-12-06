@@ -20,6 +20,7 @@
           <button @click="login()" class="button">Log In</button>
           <div class="extras">
             <a @click="togglePasswordReset()">Forgot Password</a>
+            <br>
             <a @click="toggleForm()">Create an Account</a>
           </div>
         </form>

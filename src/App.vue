@@ -230,4 +230,9 @@ a {
 
 /* more css in a new css file */
 @import url("./App.css");
+
+button {
+  background-color: skyblue;
+  border-radius: 6px;
+}
 </style>
