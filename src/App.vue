@@ -95,6 +95,10 @@ export default {
       this.showMap = false;
       this.showShowChallengesBtn = false;
       this.showOpenChallenges = false;
+
+      this.showCreateEvent = false;
+      this.showEventsMenu = false;
+      this.showChat = false;
     },
 
     logIn: function() {
