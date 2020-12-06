@@ -36,7 +36,7 @@
       <div id="chat-div" v-if="showChat">
         <chat />
       </div>
-      <div id="main-map">
+      <div id="main-map" v-if="showMap">
         <Map />
       </div>
 
@@ -104,6 +104,10 @@ export default {
     logIn: function() {
       this.hideAllComponents();
       this.showMakeSeeBtns = true;
+
+      this.showMap = true;
+      this.showChat = true;
+      this.showEventsMenu = true;
     },
 
     logOut: function() {
