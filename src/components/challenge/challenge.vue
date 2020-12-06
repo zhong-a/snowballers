@@ -1,12 +1,12 @@
 <template>        
     <div id="challengeMenu">
-        <!--div id="accept-or-reject-div" v-if="userTeam.challenged === true">
+        <div id="accept-or-reject-div" v-if="this.fightPending === true">
+            <h1>Fight Pending against <b>{{ this.teamToFight }}</b>!</h1>
             <button v-on:click="accept">Accept</button>
             <button v-on:click="reject">Reject</button>
         </div>
 
-        <div v-else-->
-        <div>
+        <div v-else>
             <h1 id="menu-title">Create a Fight</h1>
 
             <div class="menu-option">
@@ -67,16 +67,15 @@ export default {
             selectedLocation: "",
             fightDate: "",
             fightTime: "",
+            fightPending: false,
+            teamToFight: ""
         };
     },
     methods: {
         // i dont think these updates are happening in firestore aka these do not work yet :'(
         challenge: function (team) {
             console.log("challenging a team!")
-            console.log(team)
-            /*this.userTeam.challenged = true
-            team.challenged = true
-            team.challenger = this.userTeamName*/
+            console.log(team);
             this.$store
                 .dispatch("challengeTeam", {
                         challenging: team,
@@ -94,23 +93,23 @@ export default {
                 });
         },
         accept: function() {
-            this.userTeam.challenged = true;
-            fightsCollection.add({
-                team1: this.userTeam.name,
-                team2: this.userTeam.challenger,
-            })
+            console.log("accept fight");
+            this.$store.dispatch("acceptFight") //TODO
         },
         reject: function() {
-            store.state.teams[this.userTeam.challenger].challenged = false;
-            this.userTeam.challenger = "";
-            this.userTeam.challenged = false;
+            console.log("reject fight");
+            this.$store.dispatch("rejectFight") //TODO
         },
         
     },
     created: function() {
         let teamID = this.$store.state.userProfile.inteam;
-        let team = fb.teamsCollection.doc(teamID).get(); // need to use promises instead of async
+        // let team = fb.teamsCollection.doc(teamID).get();  need to use promises instead of async
         this.userTeamName = teamID;
+        this.fightPending = this.$store.state.userProfile.hasOwnProperty("acceptOrReject");
+        if (this.fightPending) {
+            this.teamToFight = this.$store.state.userProfile.acceptOrReject;
+        }
         console.log("user's team " + this.userTeamName);
         //bad cludge, please ignore
         let thisPtr = this
@@ -118,7 +117,6 @@ export default {
             thisPtr.teamsOpenForChallenge = teamList
             //thisPtr.teamsOpenForChallenge.remove(this.userTeam) // trying to remove own team from teamsOpenForChallenge list
         })
-        console.log(thisPtr.teamsOpenForChallenge);
     }  
 }
 </script>

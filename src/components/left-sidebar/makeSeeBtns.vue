@@ -5,7 +5,12 @@
           <button @click="seeTeamsBtnClicked">See Teams</button>
         </div>
         <div v-else-if="user.owner === true">
-          <button @click="showChallengesClicked">Show Challenges</button>
+          <div v-if="challengedATeam === true">
+            <h1>You challenged {{ teamToFight }}! Have fun!</h1>
+          </div>
+          <div v-else>
+            <button @click="showChallengesClicked">Show Challenges</button>
+          </div>
         </div>
         <div class="col1" v-else>
           <h1>Snowballers</h1>
@@ -22,6 +27,8 @@ export default {
     return {
       user: {},
       teamless: true,
+      challengedATeam: false,
+      teamToFight: ""
     };
   },
   methods: {
@@ -51,6 +58,11 @@ export default {
     this.user = store.state.userProfile;
     console.log(this.user.inteam);
     this.teamless = !(this.user.hasOwnProperty("inteam"));
+    this.challengedATeam = this.user.hasOwnProperty("challenging");
+    if (this.challengedATeam === true) {
+      let team = this.$store.state.userProfile.challenging;
+      this.teamToFight = team;
+    }
   }
 };
 </script>

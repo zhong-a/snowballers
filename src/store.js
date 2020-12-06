@@ -143,10 +143,12 @@ export default new Vuex.Store({
         },
 
         async challengeTeam({ commit, state}, form) {
+            let uid = this.state.userProfile.uid;
+
             let fightObject = {
                 team1: form.challenger,
                 team2: form.challenging,
-                locaton: form.locaton,
+                locaton: form.location,
                 date: form.date,
                 time: form.time,
                 accepted: false
@@ -156,6 +158,27 @@ export default new Vuex.Store({
             await fb.fightsCollection
                 .doc(fightName)
                 .set(fightObject)
+            
+            await fb.teamsCollection.doc(form.challenger).update({
+                challenged: true,
+                challenger: form.challenging,
+                fight: fightObject
+            })
+            await fb.teamsCollection.doc(form.challenging).update({
+                challenged: true,
+                challenger: form.challenger,
+                fight: fightObject
+            })
+
+            //update our internal state
+            await fb.usersCollection.doc(uid).update({
+                challenging: form.challenging
+            });
+
+            dispatch("fetchUserProfile", user);
+            return new Promise(function (resolve, reject) {
+                resolve("check firebase should see fight")
+            });
         },
 
         async createTeam({ commit, state }, form) {
@@ -222,6 +245,24 @@ export default new Vuex.Store({
             return new Promise(function (resolve, reject) {
                 resolve(teamsList);
             })
+        },
+        async fetchChallenger({commit}) {
+            let teamName = this.state.userProfile.inteam;
+            const team = await fb.teamsCollection.where("challenger", "==", teamName).get();
+            if (team.length > 1) {
+                console.log("oh dear that shouldn't happen")
+            }
+            else if (team.length == 1) {
+                let uid = this.state.userProfile.uid;
+                //update our internal state
+                await fb.usersCollection.doc(uid).update({
+                    acceptOrReject: team.name
+                })
+                dispatch("fetchUserProfile", user);
+            }
+            return new Promise(function (resolve, reject) {
+                resolve("okieee")
+            });
         },
         async fetchEvents({ commit }) {
             //fetch events
@@ -312,18 +353,5 @@ export default new Vuex.Store({
             this.state.userProfile.eventOwner = false;
         },
 
-        async challengeTeam({ commit, state}, form) {
-            let uid = this.state.userProfile.uid
-            await fb.teamsCollection.doc(form.challenger).update({
-                challenged: true,
-                challenger: form.challenging,
-            })
-            await fb.teamsCollection.doc(form.challenging).update({
-                challenged: true,
-                challenger: form.challenger,
-            })
-
-            // need to commit ?
-        }
     }
 });
