@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+    <head>
+<!-- <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+<link rel="stylesheet" href="https://unpkg.com/browse/normalize.css@8.0.1/"> -->
+    </head>
+
     <div id="sidebar-container">
       
       <div id="login-div" v-if="showLogin">
@@ -219,6 +224,14 @@ a {
   grid-template-columns: auto auto; /* make 2 columns */
 }
 
+
+
+
 /* more css in a new css file */
-@import url("./App.css");
+/* @import url("./App.css"); */
+
+button {
+  background-color: skyblue;
+  border-radius: 6px;
+}
 </style>
