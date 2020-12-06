@@ -104,3 +104,12 @@ export default {
   }
 }
 </script>
+
+<style>
+a {
+  color: blue;
+}
+a:hover {
+  text-decoration: underline;
+}
+</style>

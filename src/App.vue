@@ -67,8 +67,8 @@ export default {
       showTeamMenu: false,
       showMakeSeeBtns: false,
       showMap: true,
-      showCreateEvent: true,
-      showEventsMenu:true,
+      showCreateEvent: /*true*/ false, // hiding since it probably shouldn't appear at login
+      showEventsMenu: /*true*/ false, // hiding since it probably shouldn't appear at login
       showChat: true,
       showOpenChallenges: false,
     };
@@ -113,6 +113,8 @@ export default {
     logIn: function() {
       this.hideAllComponents();
       this.showDefaultHomePage();
+
+      this.openMakeSeeBtns();
     },
 
     logOut: function() {
